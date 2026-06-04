@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quantum Quest — Learn Quantum Computing from Scratch</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">🪐</span><div>Quantum Quest<small>Your adventure into quantum computing</small></div></div>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">0% complete</div>
+    </div>
+    <ul class="nav" id="nav"></ul>
+    <div class="btnrow" style="margin-top:14px">
+      <button class="btn ghost small" id="resetBtn">↺ Reset progress</button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main" id="main">
+
+    <!-- ===== Lesson 0: Welcome ===== -->
+    <section class="lesson" data-title="Welcome!" data-icon="👋">
+      <div class="eyebrow">Start here</div>
+      <h1>Welcome to Quantum Quest! 👋</h1>
+      <p class="lead">You're about to learn one of the most mind-bending ideas humans have ever discovered — and by the end you'll be writing programs that run on <b>real quantum computers</b>.</p>
+
+      <div class="box analogy"><span class="tag">🧠 The big idea in one sentence</span>
+      A normal computer thinks in <b>certainties</b> (yes OR no). A quantum computer can think in <b>maybes</b> (yes AND no at the same time) — and that lets it solve some puzzles in clever new ways.</div>
+
+      <h2>How this course works</h2>
+      <ul>
+        <li>🎮 Every lesson has <b>buttons to click and toys to play with</b>. Touch everything!</li>
+        <li>🧩 Short <b>quizzes</b> check what stuck (no grades, just for fun).</li>
+        <li>✅ Finishing a lesson fills your <b>progress bar</b> at the top left.</li>
+        <li>🐍 Near the end you'll write <b>real code</b> and run it on a real quantum machine.</li>
+      </ul>
+
+      <div class="box fact"><span class="tag">⭐ Do I need to be a math genius?</span>
+      Nope! If you can flip a coin and read a bar chart, you can do this. We'll sneak the math in gently, only when it helps.</div>
+
+      <h2>Your journey</h2>
+      <table class="data">
+        <tr><th>#</th><th>You'll learn…</th></tr>
+        <tr><td>1</td><td>Bits vs Qubits — the spinning coin</td></tr>
+        <tr><td>2</td><td>Superposition — being two things at once</td></tr>
+        <tr><td>3</td><td>Measurement — why looking changes everything</td></tr>
+        <tr><td>4</td><td>Gates — the buttons that control qubits</td></tr>
+        <tr><td>5</td><td>The Bloch Sphere — a qubit's secret globe</td></tr>
+        <tr><td>6</td><td>Entanglement — spooky linked qubits 👻</td></tr>
+        <tr><td>7</td><td>Circuits — snap gates together like LEGO</td></tr>
+        <tr><td>8</td><td>Your first quantum trick (interference!)</td></tr>
+        <tr><td>9</td><td>Real code — write & run actual quantum programs</td></tr>
+        <tr><td>10</td><td>Build your own systems — projects & next steps</td></tr>
+      </table>
+
+      <div class="box try"><span class="tag">🚀 Ready?</span>Hit the button to begin your quest!</div>
+      <div class="lesson-nav"><span></span><button class="btn nextBtn">Begin Lesson 1 →</button></div>
+    </section>
+
+    <!-- ===== Lesson 1: Bits vs Qubits ===== -->
+    <section class="lesson" data-title="Bits vs Qubits" data-icon="🪙">
+      <div class="eyebrow">Lesson 1</div>
+      <h1>Bits vs Qubits 🪙</h1>
+      <p class="lead">Everything your phone and laptop do is built from tiny switches called <b>bits</b>. Quantum computers use something wilder: <b>qubits</b>.</p>
+
+      <h2>A bit = a light switch</h2>
+      <p>A normal <b>bit</b> is like a light switch. It's either <b>OFF (we call it 0)</b> or <b>ON (we call it 1)</b>. Never both. Click the switch:</p>
+      <div class="widget" id="w-bit"></div>
+
+      <h2>A qubit = a spinning coin</h2>
+      <div class="box analogy"><span class="tag">🪙 The spinning coin</span>
+      Flip a coin and let it spin on the table. While it's spinning, is it heads or tails? It's… <b>kind of both</b>! Only when you slam your hand on it does it become one. A <b>qubit</b> is like that spinning coin. While "spinning" it's a mix of 0 and 1, and it only picks one when you <b>look</b> (measure) it.</div>
+
+      <p>Spin the quantum coin and then measure it. Try it a few times — what do you notice?</p>
+      <div class="widget" id="w-coin"></div>
+
+      <div class="box fact"><span class="tag">💡 Why is this useful?</span>
+      One spinning coin isn't magic. But put many qubits together and they can explore tons of possibilities at once — that's the superpower we'll build toward.</div>
+
+      <div class="quiz" data-quiz="1"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Superposition →</button></div>
+    </section>
+
+    <!-- ===== Lesson 2: Superposition ===== -->
+    <section class="lesson" data-title="Superposition" data-icon="🌗">
+      <div class="eyebrow">Lesson 2</div>
+      <h1>Superposition 🌗</h1>
+      <p class="lead">"Superposition" is the fancy word for the spinning coin — being a mix of 0 and 1 at the same time.</p>
+
+      <div class="box analogy"><span class="tag">🌗 Half-moon idea</span>
+      Think of a dimmer switch instead of an on/off switch. A qubit can be 100% "0", 100% "1", or anywhere in between — like 70% leaning toward 0 and 30% toward 1. Those percentages are its <b>probabilities</b>.</div>
+
+      <p>Drag the slider to choose how the qubit "leans". The bars show the chance of getting 0 or 1 if you measured it.</p>
+      <div class="widget" id="w-super"></div>
+
+      <div class="box fact"><span class="tag">🎲 It really is random</span>
+      Here's the spooky part: even if you knew <i>everything</i> about the qubit, you still can't predict a single measurement. You only know the odds. The universe genuinely rolls dice!</div>
+
+      <div class="box try"><span class="tag">🔬 Experiment</span>
+      Set the slider to 50/50 and press "Measure 100 times". Did you get exactly 50 and 50? Probably not! Random things wobble around the average. Try it a few times.</div>
+
+      <div class="quiz" data-quiz="2"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Measurement →</button></div>
+    </section>
+
+    <!-- ===== Lesson 3: Measurement ===== -->
+    <section class="lesson" data-title="Measurement" data-icon="👁️">
+      <div class="eyebrow">Lesson 3</div>
+      <h1>Measurement 👁️</h1>
+      <p class="lead">In the quantum world, <b>looking changes things</b>. This is the rule that trips everyone up — so let's <i>see</i> it happen.</p>
+
+      <div class="box analogy"><span class="tag">👁️ The slamming hand</span>
+      Remember the spinning coin? The moment you slam your hand down, the spinning <b>stops</b> and you get heads or tails. In quantum land we call that "the wavefunction collapses". After you measure a qubit, it's stuck on the answer you got — the superposition is gone.</div>
+
+      <p>This qubit is in a perfect 50/50 superposition. Press <b>Measure</b> and watch: the bars jump to 100% on whatever you got, and they <b>stay there</b>. To get the mix back, press <b>Reset</b>.</p>
+      <div class="widget" id="w-measure"></div>
+
+      <div class="box warn"><span class="tag">⚠️ Big consequence</span>
+      You can't peek at a qubit "a little bit". Every measurement forces a full decision and erases the maybe. That's why programming a quantum computer is all about being clever <i>before</i> you measure.</div>
+
+      <div class="quiz" data-quiz="3"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Gates →</button></div>
+    </section>
+
+    <!-- ===== Lesson 4: Gates ===== -->
+    <section class="lesson" data-title="Quantum Gates" data-icon="🎛️">
+      <div class="eyebrow">Lesson 4</div>
+      <h1>Quantum Gates 🎛️</h1>
+      <p class="lead">Gates are the <b>buttons</b> you press to change a qubit. They're how you actually "program" quantum computers.</p>
+
+      <h2>Meet three gates</h2>
+      <table class="data">
+        <tr><th>Gate</th><th>Nickname</th><th>What it does</th></tr>
+        <tr><td><b>X</b></td><td>The Flipper 🔄</td><td>Turns 0 into 1 and 1 into 0 (like NOT).</td></tr>
+        <tr><td><b>H</b></td><td>The Mixer 🌀</td><td>Turns a plain 0 into a perfect 50/50 spinning coin.</td></tr>
+        <tr><td><b>Z</b></td><td>The Twister ↩️</td><td>Secretly twists the qubit's "phase" (we'll see why that matters in Lesson 8).</td></tr>
+      </table>
+
+      <p>Press gates and watch the probability bars react. Try <b>H</b> (makes a mix), then <b>measure</b>. Or press <b>X</b> to flip, then <b>H</b>… experiment!</p>
+      <div class="widget" id="w-gates"></div>
+
+      <div class="box fact"><span class="tag">🤯 Try this!</span>
+      Press <b>H</b> once → you get 50/50. Now press <b>H</b> <i>again</i> → it goes back to 100% "0"! Two mixers cancel out. That "un-mixing" is called <b>interference</b>, and it's the real secret sauce of quantum computing (Lesson 8).</div>
+
+      <div class="quiz" data-quiz="4"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Bloch Sphere →</button></div>
+    </section>
+
+    <!-- ===== Lesson 5: Bloch Sphere ===== -->
+    <section class="lesson" data-title="The Bloch Sphere" data-icon="🌐">
+      <div class="eyebrow">Lesson 5</div>
+      <h1>The Bloch Sphere 🌐</h1>
+      <p class="lead">Scientists draw a qubit as an <b>arrow inside a globe</b>. It's the qubit's secret map — and it makes the gates make sense.</p>
+
+      <div class="box analogy"><span class="tag">🌐 The globe</span>
+      Imagine a globe. The <b>North Pole</b> means "definitely 0". The <b>South Pole</b> means "definitely 1". Any spot around the <b>equator</b> is a 50/50 mix. The qubit is an arrow pointing somewhere on this globe — gates just <b>rotate the arrow</b>.</div>
+
+      <p>Press gates and watch the arrow spin around the globe. North = 0, South = 1, equator = mix.</p>
+      <div class="widget" id="w-bloch"></div>
+
+      <div class="box fact"><span class="tag">🧭 Now gates make sense</span>
+      <b>X</b> rotates the arrow to point the opposite way (0↔1). <b>H</b> swings it to the equator (a mix). <b>Z</b> spins it <i>around</i> the pole — which doesn't change your chances of 0 or 1, but changes the hidden "phase". Phase is invisible until two paths meet and interfere!</div>
+
+      <div class="quiz" data-quiz="5"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Entanglement →</button></div>
+    </section>
+
+    <!-- ===== Lesson 6: Entanglement ===== -->
+    <section class="lesson" data-title="Entanglement" data-icon="👻">
+      <div class="eyebrow">Lesson 6</div>
+      <h1>Entanglement 👻</h1>
+      <p class="lead">Einstein called this "spooky action at a distance" — and it's the wildest idea in all of physics.</p>
+
+      <div class="box analogy"><span class="tag">🧦 Magic socks</span>
+      Imagine two magic socks in two boxes. You mail one box to the Moon. When you open your box and see a <b>left</b> sock, you instantly know the Moon box has a <b>right</b> sock — even though neither sock "decided" until you looked! Entangled qubits are linked like that: measuring one instantly tells you about the other.</div>
+
+      <p>Below are two entangled qubits in a "Bell pair". Each measurement is random — but the two qubits <b>always match</b>. Press Measure a bunch of times and watch the magic.</p>
+      <div class="widget" id="w-bell"></div>
+
+      <div class="box warn"><span class="tag">🚫 No faster-than-light texting</span>
+      It feels like magic teleporting messages — but you can't actually send a signal this way, because each result is random. You only notice the link when you bring both results back together and compare. (Still incredibly useful for quantum computing!)</div>
+
+      <div class="quiz" data-quiz="6"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Build a Circuit →</button></div>
+    </section>
+
+    <!-- ===== Lesson 7: Circuits ===== -->
+    <section class="lesson" data-title="Build a Circuit" data-icon="🧩">
+      <div class="eyebrow">Lesson 7</div>
+      <h1>Build a Circuit 🧩</h1>
+      <p class="lead">A quantum program is just a <b>circuit</b>: qubits travel along wires (left → right) and you drop gates on them like LEGO.</p>
+
+      <div class="box analogy"><span class="tag">🎼 Like sheet music</span>
+      Read it left to right, like music. Each qubit is a line. Each gate is a note you play on that line at a certain moment.</div>
+
+      <p><b>How to use the builder:</b> click a cell to cycle through gates: empty → <b>H</b> → <b>X</b> → <b>Z</b> → <b>•</b> (CNOT control) → empty. Put a <b>•</b> on the top wire and the builder links it to the bottom wire to make a CNOT. Press <b>▶ Run</b> to simulate!</p>
+      <div class="widget circuit" id="w-circuit"></div>
+
+      <div class="box try"><span class="tag">🏆 Challenge: build a Bell pair</span>
+      Column 1: put <b>H</b> on qubit 0. Column 2: put a <b>•</b> (CNOT control) on qubit 0. Run it — you should see only <b>00</b> and <b>11</b>, never 01 or 10. You just built entanglement yourself! 🎉</div>
+
+      <div class="quiz" data-quiz="7"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Your First Trick →</button></div>
+    </section>
+
+    <!-- ===== Lesson 8: Interference / first algorithm ===== -->
+    <section class="lesson" data-title="Your First Quantum Trick" data-icon="✨">
+      <div class="eyebrow">Lesson 8</div>
+      <h1>Your First Quantum Trick: Interference ✨</h1>
+      <p class="lead">Here's where quantum computing stops being random luck and starts being <b>cleverness</b>. The trick is called <b>interference</b>.</p>
+
+      <div class="box analogy"><span class="tag">🌊 Waves cancelling</span>
+      Drop two stones in a pond. Where the ripples meet, sometimes they add up into a big wave, and sometimes they <b>cancel out</b> to flat water. Qubits are like waves too. A quantum algorithm is designed so the <b>wrong answers cancel out</b> and the <b>right answer adds up</b> — so when you finally measure, you almost always get the answer you want.</div>
+
+      <h2>The "guaranteed coin" demo</h2>
+      <p>Watch two H gates in a row. A normal random coin flipped twice is still random. But a <b>quantum</b> coin H-ed twice comes back to <b>0 every single time</b> — because the "1" paths cancel and the "0" paths add up. Press Run many times: it's <b>always 0</b>.</p>
+      <div class="widget" id="w-interference"></div>
+
+      <div class="box fact"><span class="tag">🧠 Why this is a big deal</span>
+      Famous algorithms use this exact idea:
+      <ul>
+        <li><b>Grover's search</b> 🔍 — finds a needle in a haystack much faster by making the needle's wave grow.</li>
+        <li><b>Shor's algorithm</b> 🔐 — could crack certain codes by using interference to find hidden patterns in numbers.</li>
+      </ul>
+      You don't need the heavy math yet — just know the secret is "make the right answer loud, make wrong answers quiet."</div>
+
+      <div class="quiz" data-quiz="8"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Write Real Code →</button></div>
+    </section>
+
+    <!-- ===== Lesson 9: Implementation ===== -->
+    <section class="lesson" data-title="Write Real Code" data-icon="🐍">
+      <div class="eyebrow">Lesson 9</div>
+      <h1>Write Real Code 🐍</h1>
+      <p class="lead">Time to leave the toys behind and program a <b>real</b> quantum computer using Python and a free tool called <b>Qiskit</b> (made by IBM).</p>
+
+      <div class="box fact"><span class="tag">🎁 It's free</span>
+      IBM lets anyone run real quantum programs on their actual quantum computers over the internet, for free. You write code on your laptop, press run, and a real fridge-sized quantum machine does the work!</div>
+
+      <h2>Step 1 — Install the tools (one time)</h2>
+      <p>Open a terminal and run these. (Ask a grown-up if you've never installed Python before — or ask me, Claude, to do it for you!)</p>
+      <pre><code># 1) Install Python from python.org if you don't have it.
+# 2) Then install Qiskit:
+pip install qiskit qiskit-aer qiskit-ibm-runtime</code></pre>
+
+      <h2>Step 2 — Your first real quantum program</h2>
+      <p>I've already written 4 ready-to-run programs for you in the <code>python/</code> folder next to this course. Here's the simplest one:</p>
+      <pre><code>from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+
+# Make a circuit with 1 qubit and 1 "measuring slot"
+qc = QuantumCircuit(1, 1)
+qc.h(0)          # H gate = the Mixer (spinning coin!)
+qc.measure(0, 0) # look at the qubit
+
+# Run it 1000 times on a pretend quantum computer
+result = AerSimulator().run(qc, shots=1000).result()
+print(result.get_counts())   # roughly {'0': 500, '1': 500}</code></pre>
+
+      <div class="box try"><span class="tag">▶ Run the files</span>
+      In your terminal, go to the course folder and run:
+      <pre><code>cd quantum-course/python
+python 01_hello_qubit.py
+python 02_bell_state.py
+python 03_interference.py</code></pre>
+      Each file has friendly comments explaining every line. Read <code>python/README.md</code> first!</div>
+
+      <h2>Step 3 — Run on a REAL quantum computer</h2>
+      <p>The file <code>04_run_on_real_quantum_computer.py</code> shows how to connect to IBM's real machines. You make a free account at <a href="https://quantum.ibm.com" target="_blank">quantum.ibm.com</a>, copy your secret token, and your program runs on real hardware. 🤯</p>
+
+      <div class="box warn"><span class="tag">🙋 Want me to set it all up?</span>
+      Just tell me "<b>install Python and Qiskit for me</b>" and I'll do the whole setup on your PC and run your first quantum program with you.</div>
+
+      <div class="quiz" data-quiz="9"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Final: Build Your Own →</button></div>
+    </section>
+
+    <!-- ===== Lesson 10: Build your own ===== -->
+    <section class="lesson" data-title="Build Your Own Systems" data-icon="🏗️">
+      <div class="eyebrow">Lesson 10 — The Finale</div>
+      <h1>Build Your Own Systems 🏗️</h1>
+      <p class="lead">You made it! You now understand qubits, superposition, measurement, gates, entanglement, circuits, and interference — and you can write real quantum code. Here's how to go from learner to <b>builder</b>.</p>
+
+      <h2>🎯 Project ladder (easy → epic)</h2>
+      <table class="data">
+        <tr><th>Level</th><th>Build this</th></tr>
+        <tr><td>🟢 Starter</td><td>A <b>quantum coin flipper</b> that's truly random (1 qubit + H + measure).</td></tr>
+        <tr><td>🟢 Starter</td><td>A <b>quantum dice</b> (use 3 qubits to roll 1–8).</td></tr>
+        <tr><td>🟡 Medium</td><td>A <b>"mind-reading" entanglement demo</b> with 2 qubits (Bell pair) you can show your friends.</td></tr>
+        <tr><td>🟡 Medium</td><td>Code <b>Grover's search</b> for 2 qubits to find a "secret" item.</td></tr>
+        <tr><td>🔴 Epic</td><td>A <b>quantum random password generator</b> that runs on real IBM hardware.</td></tr>
+        <tr><td>🔴 Epic</td><td>Teach the basics to a friend using <i>this</i> course — teaching is the best way to master it!</td></tr>
+      </table>
+
+      <h2>🗺️ Where to go next</h2>
+      <ul>
+        <li><b>IBM Quantum Learning</b> — free official lessons & challenges: <a href="https://learning.quantum.ibm.com" target="_blank">learning.quantum.ibm.com</a></li>
+        <li><b>Qiskit Textbook</b> — friendly deep-dives with code.</li>
+        <li><b>Quantum Katas</b> (Microsoft) — bite-size coding puzzles.</li>
+        <li>Keep playing with the <b>circuit builder</b> in Lesson 7 — invent your own circuits!</li>
+      </ul>
+
+      <h2>🧰 The "build your own systems" roadmap</h2>
+      <ol>
+        <li><b>Software systems (start here):</b> write algorithms in Qiskit, run on simulators, then real cloud hardware. This is where 99% of quantum builders work — including pros.</li>
+        <li><b>Bigger programs:</b> combine gates into reusable pieces, add error-checking, and tackle real problems (chemistry, optimization, encryption).</li>
+        <li><b>Hardware (the far future for you):</b> actual quantum computers use super-cold atoms, ions, or superconductors and need university labs. But every hardware engineer started exactly where you are now — understanding qubits.</li>
+      </ol>
+
+      <div class="box fact"><span class="tag">🎓 Certificate of Awesomeness</span>
+      <span id="certLine">Finish all lessons to unlock your certificate!</span></div>
+
+      <div class="box try"><span class="tag">💬 Your move</span>
+      Tell me which project you want to build first and I'll code it <b>with</b> you, step by step. You're not just learning quantum computing anymore — you're <i>doing</i> it. 🚀</div>
+
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn" id="finishBtn">🎉 Finish the Quest</button></div>
+    </section>
+
+  </main>
+</div>
+
+<script src="js/quantum.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
