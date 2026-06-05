@@ -64,7 +64,12 @@ body{
 .progress-bar{height:12px; background:rgba(74,52,23,.18); border-radius:99px; overflow:hidden; border:1px solid var(--line)}
 .progress-fill{height:100%; width:0%; background:linear-gradient(90deg,var(--p1),var(--gold-br)); transition:width .4s}
 .progress-label{font-size:12px; color:var(--muted); margin-top:6px}
-.nav{list-style:none; margin:10px 0 0; padding:0}
+.nav{list-style:none; margin:10px 0 0; padding:0; position:relative}
+/* Grand Line route — a dashed path charting a course through the islands */
+.nav::before{
+  content:""; position:absolute; left:20px; top:22px; bottom:22px;
+  border-left:3px dashed var(--p1); opacity:.65; z-index:2; pointer-events:none;
+}
 .nav li{margin:2px 0}
 .nav button{
   width:100%; text-align:left; background:transparent; border:0; color:var(--ink);
@@ -73,7 +78,8 @@ body{
 }
 .nav button:hover{background:rgba(176,125,22,.14)}
 .nav button.active{background:linear-gradient(90deg,rgba(181,55,31,.22),rgba(207,147,32,.20)); font-weight:bold}
-.nav .dot{width:18px; height:18px; border-radius:50%; border:2px solid var(--line); flex:0 0 auto; font-size:11px; display:grid; place-items:center; background:rgba(255,255,255,.4)}
+/* island markers sit ON TOP of the route, opaque so the route reads as "stops" */
+.nav .dot{width:18px; height:18px; border-radius:50%; border:2px solid var(--line); flex:0 0 auto; font-size:11px; display:grid; place-items:center; background:#f3ead0; position:relative; z-index:3; box-shadow:0 0 0 3px var(--bg)}
 .nav .dot.done{background:var(--good); border-color:var(--good); color:#eafff4}
 
 /* ---------- Main ---------- */
