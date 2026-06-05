@@ -1,0 +1,179 @@
+/* ===== Grand Line Quantum — One Piece "open sea" theme ===== */
+:root{
+  --sea-deep:#04253b; --sea:#0a3a5c; --panel:#0c3149; --panel2:#114868;
+  --ink:#fdf3df; --muted:#bcd9ea; --line:#1d5d83;
+  --p1:#ffcf4d;            /* treasure gold (primary) */
+  --p2:#e23b3b;            /* straw-hat red (secondary) */
+  --good:#54d9a0; --bad:#ff6b6b;
+  --gold:#ffcf4d; --cyan:#63d6e6; --parch:#ecd7a6;
+  --radius:16px; --shadow:0 12px 30px rgba(0,0,0,.4);
+  --font:'Trebuchet MS','Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--font); color:var(--ink); line-height:1.6;
+  background:linear-gradient(180deg,#0a4f7a 0%, #0a3a5c 45%, var(--sea-deep) 100%);
+  min-height:100vh;
+}
+
+/* ============ animated backdrop ============ */
+.sea{position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none}
+.sun{
+  position:absolute; top:6%; right:12%; width:120px; height:120px; border-radius:50%;
+  background:radial-gradient(circle,#fff2c4 0%,#ffd860 55%,rgba(255,207,77,0) 72%);
+  filter:blur(1px); opacity:.85;
+}
+.cloud{position:absolute; font-size:54px; opacity:.85; filter:drop-shadow(0 4px 6px rgba(0,0,0,.2))}
+.cloud.c1{top:10%; left:-15%; animation:drift 48s linear infinite}
+.cloud.c2{top:22%; left:-30%; font-size:38px; opacity:.6; animation:drift 70s linear infinite}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(140vw)}}
+.ship{position:absolute; bottom:16%; left:50%; font-size:64px; transform-origin:bottom center; animation:bob 5s ease-in-out infinite; filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0) rotate(-4deg)}50%{transform:translateX(-50%) translateY(-14px) rotate(4deg)}}
+.wave{position:absolute; left:-50%; width:200%; height:140px; border-radius:45%;
+  background:radial-gradient(60% 80% at 50% 0,rgba(99,214,230,.22),transparent 70%); }
+.wave.w1{bottom:-40px; background:rgba(10,79,122,.55); animation:swell 9s ease-in-out infinite}
+.wave.w2{bottom:-60px; background:rgba(8,58,92,.6); animation:swell 12s ease-in-out infinite reverse}
+.wave.w3{bottom:-80px; background:rgba(4,37,59,.7); animation:swell 16s ease-in-out infinite}
+@keyframes swell{0%,100%{transform:translateX(-4%) scaleY(1)}50%{transform:translateX(4%) scaleY(1.15)}}
+
+.app{position:relative; z-index:1; display:grid; grid-template-columns:268px 1fr; min-height:100vh}
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  background:linear-gradient(180deg,rgba(7,38,60,.96),rgba(4,28,46,.96));
+  border-right:2px solid var(--line); backdrop-filter:blur(3px);
+  padding:18px 14px; position:sticky; top:0; height:100vh; overflow:auto;
+}
+.brand{display:flex; align-items:center; gap:10px; font-weight:bold; font-size:20px; margin-bottom:4px; color:var(--gold)}
+.brand .logo{font-size:28px}
+.brand small{display:block; color:var(--muted); font-size:12px; font-weight:normal}
+.progress-wrap{margin:14px 4px}
+.progress-label-top{font-size:11px; color:var(--gold); font-weight:bold; letter-spacing:.4px; margin-bottom:6px; text-transform:uppercase}
+.progress-bar{height:12px; background:var(--panel); border-radius:99px; overflow:hidden; border:1px solid var(--line)}
+.progress-fill{height:100%; width:0%; background:linear-gradient(90deg,var(--p2),var(--gold)); transition:width .4s}
+.progress-label{font-size:12px; color:var(--muted); margin-top:6px}
+.nav{list-style:none; margin:10px 0 0; padding:0}
+.nav li{margin:2px 0}
+.nav button{
+  width:100%; text-align:left; background:transparent; border:0; color:var(--ink);
+  padding:9px 12px; border-radius:12px; cursor:pointer; font-size:14px; font-family:var(--font);
+  display:flex; align-items:center; gap:10px; transition:.15s;
+}
+.nav button:hover{background:var(--panel)}
+.nav button.active{background:linear-gradient(90deg,rgba(255,207,77,.30),rgba(226,59,59,.18)); font-weight:bold}
+.nav .dot{width:18px; height:18px; border-radius:50%; border:2px solid var(--line); flex:0 0 auto; font-size:11px; display:grid; place-items:center}
+.nav .dot.done{background:var(--good); border-color:var(--good); color:#06281c}
+
+/* ---------- Main ---------- */
+.main{padding:32px clamp(18px,5vw,72px); max-width:980px}
+.lesson{display:none; animation:pop .35s ease}
+.lesson.active{display:block}
+@keyframes pop{from{opacity:0; transform:translateY(12px)}to{opacity:1; transform:none}}
+.eyebrow{color:var(--gold); font-weight:bold; letter-spacing:.5px; text-transform:uppercase; font-size:12px}
+h1{font-size:34px; margin:6px 0 4px; line-height:1.15; color:#fff; text-shadow:0 2px 0 rgba(226,59,59,.35)}
+h2{font-size:22px; margin:28px 0 8px; color:var(--gold)}
+h3{font-size:18px; margin:18px 0 6px}
+p{color:#eaf4fb}
+a{color:var(--cyan)}
+.lead{font-size:18px; color:#f3f9ff}
+
+/* parchment callout boxes */
+.box{border-radius:var(--radius); padding:16px 18px; margin:16px 0; border:1px solid var(--line); background:var(--panel)}
+.box.analogy{border-color:#2e7fa6; background:linear-gradient(180deg,rgba(99,214,230,.16),rgba(99,214,230,.04))}
+.box.try{border-color:#1f7a5a; background:linear-gradient(180deg,rgba(84,217,160,.14),rgba(84,217,160,.04))}
+.box.fact{border-color:#b9933a;
+  /* aged-parchment look for "facts" */
+  background:linear-gradient(180deg,rgba(236,215,166,.18),rgba(236,215,166,.06)); color:#f6ecd2}
+.box.warn{border-color:#a23b3b; background:linear-gradient(180deg,rgba(226,59,59,.16),rgba(226,59,59,.05))}
+.box .tag{font-weight:bold; display:block; margin-bottom:4px}
+.box.analogy .tag{color:var(--cyan)}
+.box.try .tag{color:var(--good)}
+.box.fact .tag{color:var(--gold)}
+.box.warn .tag{color:#ff9d9d}
+
+/* buttons (wooden-treasure feel) */
+.btn{
+  background:linear-gradient(90deg,var(--p2),var(--gold)); color:#2a1500; border:0; cursor:pointer;
+  padding:10px 16px; border-radius:12px; font-weight:bold; font-family:var(--font); font-size:15px;
+  box-shadow:var(--shadow); transition:transform .08s;
+}
+.btn:active{transform:translateY(2px)}
+.btn.ghost{background:var(--panel2); border:1px solid var(--line); color:var(--ink)}
+.btn.gate{min-width:54px; font-size:18px; padding:10px 12px}
+.btn.small{padding:7px 12px; font-size:13px}
+.btnrow{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:12px 0}
+
+/* widgets */
+.widget{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:18px; margin:18px 0; box-shadow:var(--shadow)}
+.widget h4{margin:0 0 10px; color:var(--gold); font-size:16px}
+.coin{font-size:64px; display:inline-block; transition:transform .1s}
+.spin{animation:spin .5s linear infinite}
+@keyframes spin{to{transform:rotateY(360deg)}}
+.readout{font-family:'Consolas',monospace; background:#062132; border:1px solid var(--line); border-radius:10px; padding:10px 12px; color:#d9f1f8; white-space:pre-wrap; overflow:auto}
+
+/* probability bars */
+.bars{display:flex; flex-direction:column; gap:8px; margin-top:10px}
+.bar-row{display:flex; align-items:center; gap:10px}
+.bar-label{font-family:monospace; width:54px; color:var(--muted)}
+.bar-track{flex:1; background:#062132; border-radius:8px; height:22px; overflow:hidden; border:1px solid var(--line)}
+.bar-fill{height:100%; width:0%; background:linear-gradient(90deg,var(--gold),var(--p2)); transition:width .4s; display:flex; align-items:center; justify-content:flex-end; padding-right:6px; font-size:12px; color:#2a1500; font-weight:bold}
+.bar-pct{width:54px; text-align:right; font-family:monospace; color:var(--ink)}
+
+/* histogram */
+.hist{display:flex; align-items:flex-end; gap:14px; height:160px; padding:10px; background:#062132; border-radius:12px; border:1px solid var(--line)}
+.hist .col{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%}
+.hist .stick{width:70%; background:linear-gradient(180deg,var(--gold),var(--p2)); border-radius:8px 8px 0 0; transition:height .3s; min-height:2px}
+.hist .cap{margin-top:6px; font-family:monospace; color:var(--muted); font-size:13px; text-align:center; line-height:1.35; white-space:pre}
+
+/* circuit builder */
+.circuit{overflow:auto}
+.grid{border-collapse:separate; border-spacing:6px}
+.grid td{width:54px; height:54px; text-align:center; vertical-align:middle}
+.wirelabel{color:var(--gold); font-family:monospace; font-weight:bold; width:60px}
+.cell{width:54px; height:54px; border-radius:12px; background:#062132; border:1px dashed var(--line); cursor:pointer; display:grid; place-items:center; font-size:20px; font-weight:bold; transition:.12s; user-select:none}
+.cell:hover{border-color:var(--gold)}
+.cell.filled{border-style:solid}
+.cell.H{background:rgba(99,214,230,.22); border-color:var(--cyan)}
+.cell.X{background:rgba(226,59,59,.24); border-color:var(--p2)}
+.cell.Z{background:rgba(255,207,77,.24); border-color:var(--gold)}
+.cell.C{background:rgba(84,217,160,.26); border-color:var(--good)}
+
+/* compass / sphere */
+canvas{background:#062132; border-radius:14px; border:1px solid var(--line); max-width:100%}
+
+/* quiz */
+.quiz .q{font-weight:bold; margin:10px 0}
+.opt{display:block; width:100%; text-align:left; margin:6px 0; padding:11px 14px; border-radius:12px;
+  background:var(--panel2); border:1px solid var(--line); color:var(--ink); cursor:pointer; font-family:var(--font); font-size:15px; transition:.12s}
+.opt:hover{border-color:var(--gold)}
+.opt.correct{background:rgba(84,217,160,.25); border-color:var(--good)}
+.opt.wrong{background:rgba(255,107,107,.22); border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.feedback{margin-top:8px; font-weight:bold}
+.feedback.ok{color:var(--good)}
+.feedback.no{color:var(--bad)}
+
+/* footer nav */
+.lesson-nav{display:flex; justify-content:space-between; gap:12px; margin:40px 0 20px; padding-top:18px; border-top:1px solid var(--line)}
+
+/* code */
+code{background:#062132; padding:2px 7px; border-radius:6px; font-family:'Consolas',monospace; color:#bfe9c9}
+pre{background:#062132; border:1px solid var(--line); border-radius:12px; padding:14px; overflow:auto}
+pre code{background:none; padding:0; color:#d9f1f8}
+table.data{border-collapse:collapse; width:100%; margin:12px 0}
+table.data th,table.data td{border:1px solid var(--line); padding:8px 10px; text-align:left}
+table.data th{background:var(--panel2); color:var(--gold)}
+
+/* treasure confetti (created by app.js on victory) */
+.confetti{position:fixed; top:-40px; z-index:50; font-size:24px; pointer-events:none; animation:fall linear forwards}
+@keyframes fall{
+  0%{transform:translateY(-40px) rotate(0); opacity:1}
+  100%{transform:translateY(105vh) rotate(720deg); opacity:.9}
+}
+
+@media(max-width:780px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:static; height:auto}
+  .ship{font-size:46px}
+}

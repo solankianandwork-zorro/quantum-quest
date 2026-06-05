@@ -11,6 +11,14 @@ Made to be understandable if you're about 12 years old (or 92 — curiosity is t
 
 No installing, no internet needed for the main course. Your progress is saved automatically.
 
+## 🏴‍☠️ One Piece edition
+
+Prefer a pirate adventure? **Grand Line Quantum** is a One Piece–themed reskin of the same
+course (Devil Fruits = qubits, Observation Haki = measurement, Nakama bonds = entanglement),
+with an animated ocean backdrop and treasure-confetti finale. Open **`onepiece/index.html`**
+or play it online at
+**<https://solankianandwork-zorro.github.io/quantum-quest/onepiece/>**. See `onepiece/README.md`.
+
 ## 🗺️ What's inside
 
 ```

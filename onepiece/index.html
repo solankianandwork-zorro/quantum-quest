@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grand Line Quantum — A One Piece Quest into Quantum Computing 🏴‍☠️</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ DYNAMIC BACKDROP (pure CSS animation) ============ -->
+<div class="sea" aria-hidden="true">
+  <div class="sun"></div>
+  <div class="cloud c1">☁️</div>
+  <div class="cloud c2">☁️</div>
+  <div class="ship">⛵</div>
+  <div class="wave w1"></div>
+  <div class="wave w2"></div>
+  <div class="wave w3"></div>
+</div>
+
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">🏴‍☠️</span><div>Grand Line Quantum<small>A One Piece quest into quantum computing</small></div></div>
+    <div class="progress-wrap">
+      <div class="progress-label-top">🧭 Log Pose to the Quantum One Piece</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">0% complete</div>
+    </div>
+    <ul class="nav" id="nav"></ul>
+    <div class="btnrow" style="margin-top:14px">
+      <button class="btn ghost small" id="resetBtn">↺ Reset the voyage</button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main" id="main">
+
+    <!-- ===== Island 0: Welcome ===== -->
+    <section class="lesson" data-title="Set Sail!" data-icon="🏴‍☠️">
+      <div class="eyebrow">Departure — Foosha Village</div>
+      <h1>Set Sail, Future Quantum Pirate King! 🏴‍☠️</h1>
+      <p class="lead">Ahoy! You're about to chase the greatest treasure in science — and by the end you'll be writing programs that run on <b>real quantum computers</b>, the rarest devices on the Grand Line.</p>
+
+      <div class="box analogy"><span class="tag">🧠 The whole adventure in one sentence</span>
+      A Marine's computer thinks in <b>certainties</b> (yes OR no). A quantum computer wields a <b>Devil Fruit power</b> — it can be yes AND no at the same time — and that lets it solve some puzzles in clever, swashbuckling new ways.</div>
+
+      <h2>How this voyage works</h2>
+      <ul>
+        <li>🎮 Every island has <b>buttons to press and toys to play with</b>. Touch everything, like Luffy in a treasure room!</li>
+        <li>🏴‍☠️ Short <b>crew quizzes</b> check what stuck (no grades, just bragging rights).</li>
+        <li>🧭 Clearing an island advances your <b>Log Pose</b> at the top left.</li>
+        <li>🐍 Near the end you'll write <b>real code</b> and run it on a real quantum machine.</li>
+      </ul>
+
+      <div class="box fact"><span class="tag">⭐ Do I need to be a math genius like Vegapunk?</span>
+      Nope! If you can flip a Berry coin and read a bar chart, you can do this. We'll sneak the math in gently, only when it helps.</div>
+
+      <h2>Your route across the Grand Line</h2>
+      <table class="data">
+        <tr><th>#</th><th>You'll plunder…</th></tr>
+        <tr><td>1</td><td>Berries vs Devil Fruits — the spinning coin</td></tr>
+        <tr><td>2</td><td>Awakening — being two things at once</td></tr>
+        <tr><td>3</td><td>Observation Haki — why looking changes everything</td></tr>
+        <tr><td>4</td><td>Combat moves — the gates that control qubits</td></tr>
+        <tr><td>5</td><td>The Log Pose Globe — a qubit's secret compass</td></tr>
+        <tr><td>6</td><td>Nakama Bonds — spooky linked qubits 🤝</td></tr>
+        <tr><td>7</td><td>Battle formations — snap moves together like a crew</td></tr>
+        <tr><td>8</td><td>Your first secret combo (interference!)</td></tr>
+        <tr><td>9</td><td>Real code — write &amp; run actual quantum programs</td></tr>
+        <tr><td>10</td><td>Become the Quantum Pirate King — projects &amp; next steps</td></tr>
+      </table>
+
+      <div class="box try"><span class="tag">🚀 Ready?</span>Hoist the sails and press the button to begin your quest!</div>
+      <div class="lesson-nav"><span></span><button class="btn nextBtn">Begin Island 1 →</button></div>
+    </section>
+
+    <!-- ===== Island 1: Bits vs Qubits ===== -->
+    <section class="lesson" data-title="Berries vs Devil Fruits" data-icon="🍎">
+      <div class="eyebrow">Island 1</div>
+      <h1>Berries vs Devil Fruits 🍎</h1>
+      <p class="lead">Everything a Marine battleship does is built from tiny switches called <b>bits</b>. Quantum pirates use something wilder: <b>qubits</b> — like eating a Devil Fruit.</p>
+
+      <h2>A bit = a Den Den Mushi signal</h2>
+      <p>A normal <b>bit</b> is like a snail-phone lamp. It's either <b>OFF (we call it 0)</b> or <b>ON (we call it 1)</b>. Never both. Press the button:</p>
+      <div class="widget" id="w-bit"></div>
+
+      <h2>A qubit = a spinning Berry coin</h2>
+      <div class="box analogy"><span class="tag">🪙 The spinning Berry</span>
+      Flip a Berry coin and let it spin on the deck. While it's spinning, is it heads or tails? It's… <b>kind of both</b>! Only when you slam your hand on it does it pick one. A <b>qubit</b> is like that spinning Berry — a mix of 0 and 1, choosing only when you <b>look</b> (measure) it.</div>
+
+      <p>Spin the quantum Berry, then measure it. Try it a few times — what do you notice?</p>
+      <div class="widget" id="w-coin"></div>
+
+      <div class="box fact"><span class="tag">💡 Why is this useful?</span>
+      One spinning Berry isn't magic. But gather a whole crew of qubits and they can explore tons of possibilities at once — that's the superpower we'll sail toward.</div>
+
+      <div class="quiz" data-quiz="1"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Awakening →</button></div>
+    </section>
+
+    <!-- ===== Island 2: Superposition ===== -->
+    <section class="lesson" data-title="Devil Fruit Awakening" data-icon="🌗">
+      <div class="eyebrow">Island 2</div>
+      <h1>Awakening = Superposition 🌗</h1>
+      <p class="lead">"Superposition" is the fancy word for the spinning Berry — being a mix of 0 and 1 at the same time, like a Devil Fruit power half-awakened.</p>
+
+      <div class="box analogy"><span class="tag">🌗 The dimmer haki</span>
+      Think of a dimmer switch instead of on/off. A qubit can be 100% "0", 100% "1", or anywhere between — like 70% leaning toward 0 and 30% toward 1. Those percentages are its <b>probabilities</b>.</div>
+
+      <p>Drag the slider to choose how the qubit "leans". The bars show your chance of getting 0 or 1 if you measured it.</p>
+      <div class="widget" id="w-super"></div>
+
+      <div class="box fact"><span class="tag">🎲 It really is random</span>
+      Here's the spooky part: even if you knew <i>everything</i> about the qubit, you still can't predict a single measurement. You only know the odds. The Grand Line genuinely rolls dice!</div>
+
+      <div class="box try"><span class="tag">🔬 Experiment</span>
+      Set the slider to 50/50 and press "Measure 100 times". Did you get exactly 50 and 50? Probably not! Random things wobble around the average. Try it a few times.</div>
+
+      <div class="quiz" data-quiz="2"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Observation Haki →</button></div>
+    </section>
+
+    <!-- ===== Island 3: Measurement ===== -->
+    <section class="lesson" data-title="Observation Haki" data-icon="👁️">
+      <div class="eyebrow">Island 3</div>
+      <h1>Measurement = Observation Haki 👁️</h1>
+      <p class="lead">In the quantum world, <b>looking changes things</b> — just like Kenbunshoku Haki snaps a blurry future into one path. This rule trips everyone up, so let's <i>see</i> it happen.</p>
+
+      <div class="box analogy"><span class="tag">👁️ The slamming hand</span>
+      Remember the spinning Berry? The moment you slam your hand down, the spin <b>stops</b> and you get heads or tails. Quantum pirates call that "the wavefunction collapses". After you measure a qubit, it's locked on the answer you got — the superposition is gone.</div>
+
+      <p>This qubit is in a perfect 50/50 superposition. Press <b>Measure</b> and watch: the bars jump to 100% on whatever you got, and they <b>stay there</b>. To get the mix back, press <b>Reset</b>.</p>
+      <div class="widget" id="w-measure"></div>
+
+      <div class="box warn"><span class="tag">⚠️ Big consequence</span>
+      You can't peek at a qubit "a little bit". Every measurement forces a full decision and erases the maybe. That's why quantum pirates are clever <i>before</i> they measure.</div>
+
+      <div class="quiz" data-quiz="3"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Combat Moves →</button></div>
+    </section>
+
+    <!-- ===== Island 4: Gates ===== -->
+    <section class="lesson" data-title="Combat Moves (Gates)" data-icon="⚔️">
+      <div class="eyebrow">Island 4</div>
+      <h1>Quantum Gates = Combat Moves ⚔️</h1>
+      <p class="lead">Gates are the <b>techniques</b> you unleash to change a qubit. They're how you actually "program" a quantum computer — your crew's special moves.</p>
+
+      <h2>Meet three moves</h2>
+      <table class="data">
+        <tr><th>Gate</th><th>Nickname</th><th>What it does</th></tr>
+        <tr><td><b>X</b></td><td>Gomu Gomu Flip 🔄</td><td>Turns 0 into 1 and 1 into 0 (like NOT).</td></tr>
+        <tr><td><b>H</b></td><td>The Mixer 🌀</td><td>Turns a plain 0 into a perfect 50/50 spinning Berry.</td></tr>
+        <tr><td><b>Z</b></td><td>The Twister ↩️</td><td>Secretly twists the qubit's "phase" (matters in Island 8).</td></tr>
+      </table>
+
+      <p>Press moves and watch the probability bars react. Try <b>H</b> (makes a mix), then <b>measure</b>. Or press <b>X</b> to flip, then <b>H</b>… experiment!</p>
+      <div class="widget" id="w-gates"></div>
+
+      <div class="box fact"><span class="tag">🤯 Try this!</span>
+      Press <b>H</b> once → 50/50. Now press <b>H</b> <i>again</i> → it snaps back to 100% "0"! Two mixers cancel out. That "un-mixing" is <b>interference</b>, the real secret sauce of quantum computing (Island 8).</div>
+
+      <div class="quiz" data-quiz="4"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Log Pose Globe →</button></div>
+    </section>
+
+    <!-- ===== Island 5: Bloch Sphere ===== -->
+    <section class="lesson" data-title="The Log Pose Globe" data-icon="🧭">
+      <div class="eyebrow">Island 5</div>
+      <h1>The Bloch Sphere = Your Log Pose Globe 🧭</h1>
+      <p class="lead">Scholars draw a qubit as an <b>arrow inside a globe</b> — a Log Pose pointing somewhere on a secret world map. It makes the combat moves finally make sense.</p>
+
+      <div class="box analogy"><span class="tag">🧭 The globe</span>
+      Imagine a globe. The <b>North Pole</b> means "definitely 0". The <b>South Pole</b> means "definitely 1". Any spot around the <b>equator</b> is a 50/50 mix. The qubit is an arrow pointing somewhere on this globe — gates just <b>rotate the needle</b>.</div>
+
+      <p>Press moves and watch the needle swing around the globe. North = 0, South = 1, equator = mix.</p>
+      <div class="widget" id="w-bloch"></div>
+
+      <div class="box fact"><span class="tag">🧭 Now the moves make sense</span>
+      <b>X</b> rotates the needle to point the opposite way (0↔1). <b>H</b> swings it to the equator (a mix). <b>Z</b> spins it <i>around</i> the pole — which doesn't change your chances of 0 or 1, but changes the hidden "phase". Phase is invisible until two paths meet and interfere!</div>
+
+      <div class="quiz" data-quiz="5"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Nakama Bonds →</button></div>
+    </section>
+
+    <!-- ===== Island 6: Entanglement ===== -->
+    <section class="lesson" data-title="Nakama Bonds" data-icon="🤝">
+      <div class="eyebrow">Island 6</div>
+      <h1>Entanglement = Nakama Bonds 🤝</h1>
+      <p class="lead">Einstein called this "spooky action at a distance" — and it's the wildest idea in all of physics. Pirates call it the unbreakable bond between nakama.</p>
+
+      <div class="box analogy"><span class="tag">🧦 Bonded Vivre Cards</span>
+      Imagine two Vivre Cards torn from the same paper. You sail one to a far island. When you check yours and it leans <b>left</b>, you instantly know the far one leans <b>right</b> — even though neither "decided" until you looked! Entangled qubits are linked like that: measuring one instantly tells you about the other.</div>
+
+      <p>Below are two entangled qubits in a "Bell pair". Each measurement is random — but the two qubits <b>always match</b>. Press Measure a bunch and watch the magic.</p>
+      <div class="widget" id="w-bell"></div>
+
+      <div class="box warn"><span class="tag">🚫 No faster-than-light Den Den Mushi</span>
+      It feels like instant messaging across the sea — but you can't actually send a signal this way, because each result is random. You only notice the bond when you bring both results back and compare. (Still incredibly useful for quantum pirating!)</div>
+
+      <div class="quiz" data-quiz="6"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Battle Formation →</button></div>
+    </section>
+
+    <!-- ===== Island 7: Circuits ===== -->
+    <section class="lesson" data-title="Battle Formation" data-icon="🧩">
+      <div class="eyebrow">Island 7</div>
+      <h1>Build a Circuit = Plan a Battle Formation 🧩</h1>
+      <p class="lead">A quantum program is just a <b>circuit</b>: qubits sail along wires (left → right) and you drop combat moves on them like positioning your crew.</p>
+
+      <div class="box analogy"><span class="tag">🎼 Like a battle plan</span>
+      Read it left to right, like a Straw Hat strategy. Each qubit is a crewmate's lane. Each gate is a move they perform at a certain moment.</div>
+
+      <p><b>How to use the builder:</b> click a cell to cycle moves: empty → <b>H</b> → <b>X</b> → <b>Z</b> → <b>•</b> (CNOT control) → empty. Put a <b>•</b> on the top wire and the builder links it to the bottom wire to make a CNOT. Press <b>▶ Run</b> to simulate the battle!</p>
+      <div class="widget circuit" id="w-circuit"></div>
+
+      <div class="box try"><span class="tag">🏆 Challenge: forge a Nakama Bond</span>
+      Column 1: put <b>H</b> on qubit 0. Column 2: put a <b>•</b> (CNOT control) on qubit 0. Run it — you should see only <b>00</b> and <b>11</b>, never 01 or 10. You just entangled two crewmates yourself! 🎉</div>
+
+      <div class="quiz" data-quiz="7"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Your First Combo →</button></div>
+    </section>
+
+    <!-- ===== Island 8: Interference ===== -->
+    <section class="lesson" data-title="Your First Combo" data-icon="🌊">
+      <div class="eyebrow">Island 8</div>
+      <h1>Your First Secret Combo: Interference 🌊</h1>
+      <p class="lead">Here's where quantum pirating stops being random luck and starts being <b>cunning</b>. The trick is called <b>interference</b> — like ocean currents that cancel or pile up.</p>
+
+      <div class="box analogy"><span class="tag">🌊 Waves cancelling</span>
+      Drop two stones in the sea. Where the ripples meet, sometimes they pile into a big wave, and sometimes they <b>cancel out</b> to flat water. Qubits are like waves too. A quantum algorithm is built so the <b>wrong answers cancel out</b> and the <b>right answer piles up</b> — so when you finally measure, you almost always get the treasure you want.</div>
+
+      <h2>The "guaranteed Berry" demo</h2>
+      <p>Watch two H gates in a row. A normal Berry flipped twice is still random. But a <b>quantum</b> Berry H-ed twice comes back to <b>0 every single time</b> — because the "1" paths cancel and the "0" paths pile up. Press Run many times: it's <b>always 0</b>.</p>
+      <div class="widget" id="w-interference"></div>
+
+      <div class="box fact"><span class="tag">🧠 Why this is a big deal</span>
+      Legendary algorithms use this exact idea:
+      <ul>
+        <li><b>Grover's search</b> 🔍 — finds a needle in a haystack much faster by making the needle's wave grow.</li>
+        <li><b>Shor's algorithm</b> 🔐 — could crack certain codes by using interference to find hidden patterns in numbers.</li>
+      </ul>
+      No heavy math needed yet — just know the secret: "make the right answer loud, make wrong answers quiet."</div>
+
+      <div class="quiz" data-quiz="8"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Next: Write Real Code →</button></div>
+    </section>
+
+    <!-- ===== Island 9: Implementation ===== -->
+    <section class="lesson" data-title="Write Real Code" data-icon="🐍">
+      <div class="eyebrow">Island 9</div>
+      <h1>Write Real Pirate Code 🐍</h1>
+      <p class="lead">Time to leave the toys behind and program a <b>real</b> quantum computer using Python and a free tool called <b>Qiskit</b> (made by IBM) — your ship's log of real spells.</p>
+
+      <div class="box fact"><span class="tag">🎁 It's free</span>
+      IBM lets anyone run real quantum programs on their actual quantum computers over the internet, for free. You write code on your ship (laptop), press run, and a real fridge-sized quantum machine does the work!</div>
+
+      <h2>Step 1 — Install the tools (one time)</h2>
+      <p>Open a terminal and run these. (Ask a crewmate if you've never installed Python before — or ask me, Claude, to do it for you!)</p>
+      <pre><code># 1) Install Python from python.org if you don't have it.
+# 2) Then install Qiskit:
+pip install qiskit qiskit-aer qiskit-ibm-runtime</code></pre>
+
+      <h2>Step 2 — Your first real quantum program</h2>
+      <p>There are 4 ready-to-run programs in the <code>python/</code> folder of this course. Here's the simplest one:</p>
+      <pre><code>from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+
+# Make a circuit with 1 qubit and 1 "measuring slot"
+qc = QuantumCircuit(1, 1)
+qc.h(0)          # H gate = the Mixer (spinning Berry!)
+qc.measure(0, 0) # look at the qubit
+
+# Run it 1000 times on a pretend quantum computer
+result = AerSimulator().run(qc, shots=1000).result()
+print(result.get_counts())   # roughly {'0': 500, '1': 500}</code></pre>
+
+      <div class="box try"><span class="tag">▶ Run the files</span>
+      In your terminal, go to the course folder and run:
+      <pre><code>cd quantum-course/python
+python 01_hello_qubit.py
+python 02_bell_state.py
+python 03_interference.py</code></pre>
+      Each file has friendly comments explaining every line. Read <code>python/README.md</code> first!</div>
+
+      <h2>Step 3 — Run on a REAL quantum computer</h2>
+      <p>The file <code>04_run_on_real_quantum_computer.py</code> shows how to connect to IBM's real machines. Make a free account at <a href="https://quantum.ibm.com" target="_blank" rel="noopener">quantum.ibm.com</a>, copy your secret token, and your program runs on real hardware. 🤯</p>
+
+      <div class="box warn"><span class="tag">🙋 Want me to set it all up?</span>
+      Just tell me "<b>install Python and Qiskit for me</b>" and I'll do the whole setup on your PC and run your first quantum program with you.</div>
+
+      <div class="quiz" data-quiz="9"></div>
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn nextBtn">Final: Become Pirate King →</button></div>
+    </section>
+
+    <!-- ===== Island 10: Build your own ===== -->
+    <section class="lesson" data-title="Quantum Pirate King" data-icon="👑">
+      <div class="eyebrow">Island 10 — The Finale (Raftel)</div>
+      <h1>Become the Quantum Pirate King 👑</h1>
+      <p class="lead">You made it to Raftel! You now understand qubits, superposition, measurement, gates, entanglement, circuits, and interference — and you can write real quantum code. Here's how to go from rookie to <b>legend</b>.</p>
+
+      <h2>🎯 Bounty ladder (easy → epic)</h2>
+      <table class="data">
+        <tr><th>Bounty</th><th>Build this</th></tr>
+        <tr><td>🟢 Rookie</td><td>A <b>quantum Berry flipper</b> that's truly random (1 qubit + H + measure).</td></tr>
+        <tr><td>🟢 Rookie</td><td>A <b>quantum dice</b> (use 3 qubits to roll 1–8).</td></tr>
+        <tr><td>🟡 Supernova</td><td>A <b>"mind-reading" Nakama-Bond demo</b> with 2 qubits (Bell pair) to amaze your crew.</td></tr>
+        <tr><td>🟡 Supernova</td><td>Code <b>Grover's search</b> for 2 qubits to find a "secret" treasure.</td></tr>
+        <tr><td>🔴 Yonko</td><td>A <b>quantum random password generator</b> that runs on real IBM hardware.</td></tr>
+        <tr><td>🔴 Yonko</td><td>Teach the basics to a friend using <i>this</i> course — teaching is the best way to master it!</td></tr>
+      </table>
+
+      <h2>🗺️ Where to sail next</h2>
+      <ul>
+        <li><b>IBM Quantum Learning</b> — free official lessons &amp; challenges: <a href="https://learning.quantum.ibm.com" target="_blank" rel="noopener">learning.quantum.ibm.com</a></li>
+        <li><b>Qiskit Textbook</b> — friendly deep-dives with code.</li>
+        <li><b>Quantum Katas</b> (Microsoft) — bite-size coding puzzles.</li>
+        <li>Keep playing with the <b>circuit builder</b> in Island 7 — invent your own battle formations!</li>
+      </ul>
+
+      <h2>🧰 The "build your own crew" roadmap</h2>
+      <ol>
+        <li><b>Software (start here):</b> write algorithms in Qiskit, run on simulators, then real cloud hardware. This is where 99% of quantum builders sail — including pros.</li>
+        <li><b>Bigger fleets:</b> combine gates into reusable pieces, add error-checking, and tackle real treasure (chemistry, optimization, encryption).</li>
+        <li><b>Hardware (the far New World):</b> real quantum computers use super-cold atoms, ions, or superconductors and need university labs. But every hardware engineer started exactly where you are now — understanding qubits.</li>
+      </ol>
+
+      <div class="box fact"><span class="tag">🎓 Bounty Poster of Awesomeness</span>
+      <span id="certLine">Clear all islands to unlock your bounty poster!</span></div>
+
+      <div class="box try"><span class="tag">💬 Your move</span>
+      Tell me which project you want to build first and I'll code it <b>with</b> you, step by step. You're not just learning quantum computing anymore — you're <i>plundering</i> it. 🚀</div>
+
+      <div class="lesson-nav"><button class="btn ghost prevBtn">← Back</button><button class="btn" id="finishBtn">🏴‍☠️ Claim the One Piece</button></div>
+    </section>
+
+  </main>
+</div>
+
+<script src="js/quantum.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
