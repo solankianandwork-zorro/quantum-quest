@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Compass rose">
+  <g fill="none" stroke="#7a5a28" stroke-width="3">
+    <circle cx="100" cy="100" r="94"/>
+    <circle cx="100" cy="100" r="72"/>
+  </g>
+  <!-- diagonal (minor) points -->
+  <g fill="#caa24f">
+    <polygon points="100,100 138,62 112,88"/>
+    <polygon points="100,100 138,138 112,112"/>
+    <polygon points="100,100 62,138 88,112"/>
+    <polygon points="100,100 62,62 88,88"/>
+  </g>
+  <!-- cardinal (major) points -->
+  <g fill="#b5371f">
+    <polygon points="100,10 110,100 90,100"/>
+    <polygon points="100,190 110,100 90,100"/>
+  </g>
+  <g fill="#46341d">
+    <polygon points="190,100 100,110 100,90"/>
+    <polygon points="10,100 100,110 100,90"/>
+    <circle cx="100" cy="100" r="9"/>
+  </g>
+  <!-- letters -->
+  <g fill="#46341d" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="20" text-anchor="middle">
+    <text x="100" y="40">N</text>
+    <text x="100" y="174">S</text>
+    <text x="172" y="107">E</text>
+    <text x="34"  y="107">W</text>
+  </g>
+</svg>
