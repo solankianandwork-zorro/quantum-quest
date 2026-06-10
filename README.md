@@ -19,6 +19,18 @@ with an animated ocean backdrop and treasure-confetti finale. Open **`onepiece/i
 or play it online at
 **<https://solankianandwork-zorro.github.io/quantum-quest/onepiece/>**. See `onepiece/README.md`.
 
+## ⚛️ Quantum Leap edition — in-depth single-file course (with a finance focus)
+
+**Quantum Leap** is a self-contained, single-file deep-dive (`leap/index.html`) aimed at ~11-year-olds:
+17 modules from "what is a qubit?" all the way to **reading real Qiskit code**, **use-cases across
+industries**, a **special finance focus** (portfolio optimisation, Monte-Carlo pricing, fraud, risk),
+a **capstone project**, and a printable **certificate**. Hands-on widgets (Qubit Lab, Gate Playground,
+Bell-pair demo, Grover search, Quantum Portfolio Picker) run on a tiny built-in quantum simulator.
+
+▶️ Play online: **<https://solankianandwork-zorro.github.io/quantum-quest/leap/>** · or open `leap/index.html`.
+
+![Quantum Leap screenshot](leap/media/screenshot.png)
+
 ## 🗺️ What's inside
 
 ```
@@ -28,6 +40,8 @@ quantum-course/
 ├─ css/style.css             ← the look & feel
 ├─ js/quantum.js             ← a real mini quantum simulator (the engine)
 ├─ js/app.js                 ← all the buttons, widgets and quizzes
+├─ leap/index.html           ← ⚛️ Quantum Leap: in-depth single-file course (+ finance & capstone)
+├─ onepiece/                 ← 🏴‍☠️ Grand Line Quantum (One Piece–themed edition)
 └─ python/                   ← write REAL quantum code (Lesson 9+)
    ├─ README.md              ← how to install & run
    ├─ 01_hello_qubit.py

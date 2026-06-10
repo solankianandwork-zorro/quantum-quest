@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quantum Leap — Quantum Computing from Scratch (for Curious Minds)</title>
+<style>
+  :root{
+    --bg:#0b1020; --bg2:#121933; --card:#161f3e; --card2:#1d2950;
+    --ink:#eaf0ff; --mut:#9fb0d8; --line:#2b3766;
+    --pri:#7c5cff; --pri2:#22d3ee; --ok:#34d399; --bad:#fb7185; --warn:#fbbf24;
+    --gold:#ffd23f;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Trebuchet MS','Segoe UI',system-ui,sans-serif;background:
+    radial-gradient(1200px 700px at 80% -10%,#1b2550,transparent),
+    radial-gradient(900px 600px at -10% 10%,#15213f,transparent),var(--bg);
+    color:var(--ink);line-height:1.65;}
+  a{color:var(--pri2)}
+  .layout{display:flex;min-height:100vh}
+
+  /* Sidebar */
+  .side{width:280px;flex:0 0 280px;background:linear-gradient(180deg,#0e1530,#0b1020);
+    border-right:1px solid var(--line);position:sticky;top:0;height:100vh;overflow:auto;padding:18px 14px;}
+  .brand{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+  .brand .logo{font-size:30px}
+  .brand b{font-size:18px;display:block;line-height:1.1}
+  .brand small{color:var(--mut);font-size:11px}
+  .prog{margin:10px 0 16px}
+  .prog .bar{height:10px;border-radius:99px;background:#0a132b;overflow:hidden;border:1px solid var(--line)}
+  .prog .fill{height:100%;width:0;background:linear-gradient(90deg,var(--pri),var(--pri2));transition:width .4s}
+  .prog .lbl{font-size:11px;color:var(--mut);margin-top:5px}
+  nav a{display:flex;gap:8px;align-items:center;padding:7px 10px;border-radius:9px;color:var(--mut);
+    text-decoration:none;font-size:13.5px;margin:2px 0}
+  nav a:hover{background:var(--card);color:var(--ink)}
+  nav a.active{background:linear-gradient(90deg,rgba(124,92,255,.25),transparent);color:#fff;border-left:3px solid var(--pri)}
+  nav a .ico{width:20px;text-align:center}
+  nav a .chk{margin-left:auto;color:var(--ok);opacity:0;font-size:12px}
+  nav a.done .chk{opacity:1}
+  .resetbtn{margin-top:12px;width:100%;background:transparent;border:1px solid var(--line);color:var(--mut);
+    padding:8px;border-radius:9px;cursor:pointer;font-size:12px}
+  .resetbtn:hover{color:var(--bad);border-color:var(--bad)}
+
+  /* Main */
+  main{flex:1;max-width:920px;margin:0 auto;padding:30px 26px 90px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin:0 0 26px;
+    box-shadow:0 18px 40px rgba(0,0,0,.35)}
+  .eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--pri2);font-weight:bold}
+  h1{font-size:30px;margin:6px 0 4px;line-height:1.15}
+  h2{font-size:21px;margin:26px 0 8px;border-bottom:1px dashed var(--line);padding-bottom:6px}
+  h3{font-size:16px;margin:18px 0 6px;color:#cdd8ff}
+  .lead{font-size:17px;color:#dbe5ff}
+  p,li{font-size:15.5px}
+  .hero{background:linear-gradient(120deg,#241a52,#0e2740);border:1px solid var(--line)}
+  .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+  .pill{background:var(--card2);border:1px solid var(--line);border-radius:99px;padding:5px 12px;font-size:12.5px;color:#cdd8ff}
+
+  .box{border-radius:13px;padding:14px 16px;margin:14px 0;border:1px solid var(--line);background:var(--card2)}
+  .box .tag{display:inline-block;font-weight:bold;font-size:12px;margin-bottom:4px}
+  .analogy{background:linear-gradient(120deg,#1a2a23,#12233a);border-color:#1f7a52}
+  .analogy .tag{color:var(--ok)}
+  .fact{background:linear-gradient(120deg,#2a2410,#221a33);border-color:#7a5a1f}
+  .fact .tag{color:var(--warn)}
+  .warnbox,.note{background:linear-gradient(120deg,#2a1620,#1a1233);border-color:#7a2f4a}
+  .note .tag{color:var(--bad)}
+  .try{background:linear-gradient(120deg,#101a3a,#161033);border:1px solid var(--pri)}
+  .try .tag{color:var(--pri2)}
+
+  table.data{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
+  table.data th,table.data td{border:1px solid var(--line);padding:7px 9px;text-align:left}
+  table.data th{background:var(--card2);color:#cdd8ff}
+
+  .btn{background:linear-gradient(90deg,var(--pri),#5b8cff);color:#fff;border:none;border-radius:10px;
+    padding:9px 16px;font-weight:bold;cursor:pointer;font-size:14px;box-shadow:0 4px 0 #2d2a6e}
+  .btn:active{transform:translateY(2px);box-shadow:0 2px 0 #2d2a6e}
+  .btn.alt{background:linear-gradient(90deg,#0e9488,#22d3ee);box-shadow:0 4px 0 #0a5b53}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);box-shadow:none}
+  .btn.small{padding:6px 11px;font-size:12.5px}
+  .btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+
+  /* bars */
+  .barwrap{margin:8px 0}
+  .barwrap .lab{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut);margin-bottom:3px}
+  .bartrack{height:24px;background:#0a132b;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .barfill{height:100%;width:0;border-radius:7px;transition:width .35s;background:linear-gradient(90deg,var(--pri),var(--pri2))}
+  .barfill.zero{background:linear-gradient(90deg,#5b8cff,#22d3ee)}
+  .barfill.one{background:linear-gradient(90deg,#fb7185,#fbbf24)}
+
+  /* coin / arrow */
+  .coin{width:90px;height:90px;border-radius:50%;margin:6px auto;display:flex;align-items:center;justify-content:center;
+    font-size:34px;font-weight:bold;color:#1b1b2b;background:radial-gradient(circle at 35% 30%,#fff6c0,var(--gold));
+    border:4px solid #b8860b;box-shadow:0 8px 18px rgba(0,0,0,.4)}
+
+  code,kbd{font-family:'Consolas','SF Mono',monospace}
+  pre{background:#0a0f22;border:1px solid var(--line);border-radius:12px;padding:14px;overflow:auto;font-size:13px}
+  pre .cm{color:#6b7aa8}    /* comment */
+  pre .kw{color:#c792ea}
+  pre .st{color:#a5e2a5}
+  pre .fn{color:#82aaff}
+  .codeout{background:#04210f;border:1px solid #1f7a52;border-radius:10px;padding:10px 12px;font-family:monospace;
+    font-size:13px;color:#b9ffd0;white-space:pre-wrap;display:none;margin-top:8px}
+
+  /* quiz */
+  .quiz{background:var(--card2);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin:16px 0}
+  .quiz h4{margin:0 0 8px;font-size:15px}
+  .quiz .opt{display:block;background:#0e1733;border:1px solid var(--line);border-radius:9px;padding:9px 12px;margin:6px 0;
+    cursor:pointer;font-size:14px;transition:.15s}
+  .quiz .opt:hover{border-color:var(--pri)}
+  .quiz .opt.sel{border-color:var(--pri);background:#151f44}
+  .quiz .opt.correct{border-color:var(--ok);background:#0f2e22}
+  .quiz .opt.wrong{border-color:var(--bad);background:#2e1320}
+  .quiz .fb{margin-top:8px;font-size:13.5px;display:none;border-radius:8px;padding:8px 10px}
+  .quiz .fb.show{display:block}
+  .quiz .fb.good{background:#0f2e22;color:#b9ffd0}
+  .quiz .fb.bad{background:#2e1320;color:#ffc9d4}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .ucard{background:var(--card2);border:1px solid var(--line);border-radius:13px;padding:14px}
+  .ucard h3{margin-top:0}
+  .ucard .big{font-size:26px}
+
+  .check{display:flex;gap:9px;align-items:flex-start;background:#0e1733;border:1px solid var(--line);
+    border-radius:9px;padding:9px 11px;margin:6px 0;cursor:pointer}
+  .check input{margin-top:3px;width:17px;height:17px;flex:0 0 auto}
+  textarea{width:100%;background:#0a0f22;border:1px solid var(--line);border-radius:9px;color:var(--ink);
+    padding:10px;font-family:inherit;font-size:14px;min-height:64px}
+  input[type=text],input[type=number]{background:#0a0f22;border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:9px 11px;font-size:14px}
+  input[type=range]{width:100%}
+
+  .badge{display:inline-block;background:#0f2e22;border:1px solid var(--ok);color:#b9ffd0;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:bold}
+  .kbd{background:#0a132b;border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-size:12px}
+  .center{text-align:center}
+  .muted{color:var(--mut)}
+  .topbar{display:none}
+  @media(max-width:880px){
+    .side{display:none}
+    .topbar{display:flex;position:sticky;top:0;z-index:20;background:#0c122a;border-bottom:1px solid var(--line);
+      padding:10px 14px;gap:10px;align-items:center}
+    .grid2,.grid3{grid-template-columns:1fr}
+    main{padding:16px}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="side">
+    <div class="brand"><span class="logo">⚛️</span><div><b>Quantum Leap</b><small>Quantum computing, from zero</small></div></div>
+    <div class="prog">
+      <div class="bar"><div class="fill" id="progFill"></div></div>
+      <div class="lbl" id="progLbl">0% complete</div>
+    </div>
+    <nav id="nav"></nav>
+    <button class="resetbtn" id="resetBtn">↺ Reset my progress</button>
+    <p class="muted" style="font-size:11px;margin-top:14px">Your progress is saved on this device automatically.</p>
+  </aside>
+
+  <main id="main">
+
+  <!-- 0. WELCOME -->
+  <section id="welcome" data-nav="Welcome" data-ico="👋" class="hero">
+    <div class="eyebrow">Start here</div>
+    <h1>Welcome to Quantum Leap ⚛️</h1>
+    <p class="lead">You're about to learn one of the strangest, coolest ideas humans ever found — <b>quantum computing</b> — starting from absolute zero, all the way to <b>writing code</b> and seeing how it's used in <b>real industries like finance</b>. No scary math. Promise.</p>
+    <div class="box analogy"><span class="tag">🧠 The whole idea in one sentence</span>
+      A normal computer thinks in <b>certainties</b> (yes <i>or</i> no). A quantum computer can explore <b>many maybes at once</b> (yes <i>and</i> no together) — and that lets it crack some puzzles in clever new ways.</div>
+    <h2>How this course works</h2>
+    <ul>
+      <li>🎮 Almost every lesson has a <b>toy to play with</b> — click buttons, drag sliders, measure qubits. Touch everything!</li>
+      <li>🧩 Short <b>Quick Check</b> quizzes lock in what you learned (just for fun, no grades).</li>
+      <li>✅ Passing a Quick Check fills your <b>progress bar</b> and ticks the menu on the left.</li>
+      <li>💻 Later you'll read <b>real quantum code</b> and see <b>finance use-cases</b>, then build a <b>capstone project</b>.</li>
+      <li>🏅 Finish everything and print your <b>certificate</b>.</li>
+    </ul>
+    <div class="box fact"><span class="tag">⭐ Do I need to be a maths genius?</span>
+      Nope. If you can flip a coin, read a bar chart, and count to eight, you're ready. We sneak the maths in gently, only when it helps.</div>
+    <div class="pillrow">
+      <span class="pill">🎂 Made for ~11 years old & up</span>
+      <span class="pill">⏱️ ~2–3 hours, go at your pace</span>
+      <span class="pill">📈 Extra focus on finance</span>
+      <span class="pill">🛠️ Capstone project included</span>
+    </div>
+    <p class="center" style="margin-top:18px"><a class="btn" href="#tiny">Let's go! →</a></p>
+  </section>
+
+  <!-- 1. THE TINY WORLD -->
+  <section id="tiny" data-nav="The tiny world" data-ico="🔬">
+    <div class="eyebrow">Lesson 1</div>
+    <h1>The world of the very, very tiny 🔬</h1>
+    <p>Everything around you is made of <b>atoms</b> — unimaginably small specks. Zoom in even further and you reach the land of the <b>quantum</b>: electrons, photons (tiny bits of light), and other particles.</p>
+    <p>Down there, the rules are <b>weird</b>. Things can be in two states at once, be linked across distance, and behave like waves <i>and</i> like balls. These weird rules aren't a mistake — they're how nature actually works at the smallest scale. Quantum computing is the art of using those weird rules to <b>compute</b>.</p>
+    <div class="box analogy"><span class="tag">🌊 Wave or ball?</span>
+      Throw a pebble in a pond → <b>ripples (waves)</b> spread and can overlap. Roll a marble → it's a <b>ball</b> at one spot. Tiny quantum things act like <b>both</b>, and that "wave" side is the secret sauce of quantum computers.</div>
+    <h2>Why bother? Classical vs quantum</h2>
+    <table class="data">
+      <tr><th>Normal ("classical") computer</th><th>Quantum computer</th></tr>
+      <tr><td>Checks possibilities <b>one after another</b></td><td>Explores <b>many possibilities together</b></td></tr>
+      <tr><td>Great for almost everything you do daily</td><td>Great for a <b>few special</b> hard problems</td></tr>
+      <tr><td>Made of bits (0 or 1)</td><td>Made of <b>qubits</b> (0, 1, or a blend)</td></tr>
+    </table>
+    <div class="box note"><span class="tag">❗ Myth-buster</span>
+      A quantum computer is <b>not</b> "just a faster laptop." It won't make your games run quicker. It's a <b>different tool</b> — like how a submarine isn't a "faster car." It wins only at certain underwater jobs.</div>
+    <div class="quiz" data-quiz="q1"></div>
+  </section>
+
+  <!-- 2. BITS vs QUBITS -->
+  <section id="bits" data-nav="Bits vs Qubits" data-ico="🪙">
+    <div class="eyebrow">Lesson 2</div>
+    <h1>Bits vs Qubits — the spinning coin 🪙</h1>
+    <p>A normal computer stores info in <b>bits</b>. A bit is like a <b>light switch</b>: it's either <b>OFF (0)</b> or <b>ON (1)</b>. Everything — text, photos, games — is just billions of these 0s and 1s.</p>
+    <p>A quantum computer uses <b>qubits</b>. A qubit is like a <b>spinning coin</b>. While it spins, it isn't heads or tails — it's a <b>blend of both</b>. Only when it lands (you look) does it become a definite 0 or 1.</p>
+    <div class="grid2">
+      <div class="ucard"><h3>🔦 Bit = light switch</h3><p class="big">0 or 1</p><p class="muted">Always one clear answer.</p></div>
+      <div class="ucard"><h3>🪙 Qubit = spinning coin</h3><p class="big">0 <i>and</i> 1</p><p class="muted">A blend… until you look.</p></div>
+    </div>
+    <div class="box fact"><span class="tag">🔢 The power of "together"</span>
+      1 qubit ≈ 2 possibilities at once. 2 qubits ≈ 4. 3 qubits ≈ 8. <b>Each extra qubit doubles it.</b> Just 300 perfect qubits could represent more numbers than there are atoms in the whole universe. 🤯</div>
+    <div class="quiz" data-quiz="q2"></div>
+  </section>
+
+  <!-- 3. SUPERPOSITION + QUBIT LAB -->
+  <section id="superposition" data-nav="Superposition" data-ico="🌀">
+    <div class="eyebrow">Lesson 3</div>
+    <h1>Superposition — being two things at once 🌀</h1>
+    <p>"Superposition" is a big word for the <b>spinning-coin blend</b>. A qubit can be <b>mostly 0</b>, <b>mostly 1</b>, or <b>exactly half-half</b> — or anything in between. We describe the blend with <b>probabilities</b> (chances).</p>
+    <p>If a qubit is a perfect 50/50 blend and you measure it many times, you'll get 0 about half the time and 1 about half the time — like flipping a fair coin.</p>
+
+    <div class="box try"><span class="tag">🎮 Try it: the Qubit Lab</span>
+      Drag the slider to tilt the qubit's blend. Watch the chances change. Then <b>measure</b> — the coin must pick a side!
+      <div class="center"><div class="coin" id="labCoin">?</div></div>
+      <label class="muted" style="font-size:13px">Tilt the blend (more 0 ⟵⟶ more 1)</label>
+      <input type="range" id="labSlider" min="0" max="100" value="50">
+      <div class="barwrap"><div class="lab"><span>Chance of <b>0</b></span><span id="labP0">50%</span></div>
+        <div class="bartrack"><div class="barfill zero" id="labBar0" style="width:50%"></div></div></div>
+      <div class="barwrap"><div class="lab"><span>Chance of <b>1</b></span><span id="labP1">50%</span></div>
+        <div class="bartrack"><div class="barfill one" id="labBar1" style="width:50%"></div></div></div>
+      <div class="btnrow">
+        <button class="btn small" id="labMeasure1">👁️ Measure once</button>
+        <button class="btn small alt" id="labMeasure100">🎲 Measure 100 times</button>
+        <button class="btn small ghost" id="labReset">↺ Reset</button>
+      </div>
+      <div id="labResult" class="muted" style="font-size:13.5px;margin-top:6px">Result will appear here…</div>
+    </div>
+    <div class="box analogy"><span class="tag">🍦 Half-half is real</span>
+      Superposition isn't "we don't know yet." The coin really <i>is</i> spinning as both. It's like a <b>swirl ice-cream</b> that's genuinely chocolate <b>and</b> vanilla until you take a bite and taste one flavour.</div>
+    <div class="quiz" data-quiz="q3"></div>
+  </section>
+
+  <!-- 4. MEASUREMENT -->
+  <section id="measurement" data-nav="Measurement" data-ico="👁️">
+    <div class="eyebrow">Lesson 4</div>
+    <h1>Measurement — why looking changes everything 👁️</h1>
+    <p>Here's the twist: the moment you <b>look at</b> (measure) a qubit, the spinning coin <b>lands</b>. The blend "collapses" into a plain 0 or 1, and the superposition is <b>gone</b>.</p>
+    <p>You can't peek without disturbing it. That's not bad engineering — it's a deep law of nature. It means a quantum computer has to be <b>clever</b>: it must arrange the qubits so that when you finally look, the answer you want is the one most likely to pop out.</p>
+    <div class="box analogy"><span class="tag">🙈 The shy creature</span>
+      A qubit is like a shy creature that dances wildly when no one watches, but <b>freezes</b> the instant you turn on the light. To use its dance, you must set things up <i>before</i> you look.</div>
+    <div class="box fact"><span class="tag">🎯 The whole game of quantum programming</span>
+      Start qubits in a blend → nudge them with "gates" so good answers <b>add up</b> and bad answers <b>cancel out</b> → then measure. We'll see "adding up and cancelling" soon (it's called interference).</div>
+    <div class="quiz" data-quiz="q4"></div>
+  </section>
+
+  <!-- 5. GATES + PLAYGROUND -->
+  <section id="gates" data-nav="Quantum Gates" data-ico="🎛️">
+    <div class="eyebrow">Lesson 5</div>
+    <h1>Quantum Gates — the buttons that control qubits 🎛️</h1>
+    <p>To <b>do</b> anything with qubits, we use <b>gates</b>. Think of gates like <b>LEGO bricks</b> or <b>dance moves</b> that change a qubit's blend. Here are the starter gates:</p>
+    <table class="data">
+      <tr><th>Gate</th><th>What it does (kid version)</th></tr>
+      <tr><td><b>X</b> (NOT)</td><td>🔄 Flip it: a 0 becomes 1, a 1 becomes 0.</td></tr>
+      <tr><td><b>H</b> (Hadamard)</td><td>🌀 Make a blend: turns a definite 0 into a perfect 50/50 superposition.</td></tr>
+      <tr><td><b>Z</b></td><td>🏷️ Secret sticker: leaves the chances the same but flips a hidden "sign" (super useful for interference).</td></tr>
+      <tr><td><b>CNOT</b></td><td>🔗 Two-qubit move: flip the 2nd qubit <i>only if</i> the 1st is 1. (Used to link qubits!)</td></tr>
+    </table>
+    <div class="box try"><span class="tag">🎮 Try it: Gate Playground (1 qubit)</span>
+      Your qubit starts as <b>|0⟩</b> (a definite 0). Press gates and watch the chances. Press <b>H</b> to make a blend; press it <b>again</b> to see the blend vanish (that's interference!). Then measure.
+      <div class="center" style="margin:8px 0"><span class="muted">State:</span> <b id="gpKet" style="font-size:20px">|0⟩</b></div>
+      <div class="barwrap"><div class="lab"><span>Chance of <b>0</b></span><span id="gpP0">100%</span></div>
+        <div class="bartrack"><div class="barfill zero" id="gpBar0" style="width:100%"></div></div></div>
+      <div class="barwrap"><div class="lab"><span>Chance of <b>1</b></span><span id="gpP1">0%</span></div>
+        <div class="bartrack"><div class="barfill one" id="gpBar1" style="width:0%"></div></div></div>
+      <div class="muted" style="font-size:12px">Hidden amplitudes (the secret signs): <span id="gpAmp">0 → +1.00 · |0⟩  +0.00 · |1⟩</span></div>
+      <div class="btnrow">
+        <button class="btn small" id="gpX">X (flip)</button>
+        <button class="btn small" id="gpH">H (blend)</button>
+        <button class="btn small" id="gpZ">Z (sign)</button>
+        <button class="btn small alt" id="gpMeasure">👁️ Measure</button>
+        <button class="btn small ghost" id="gpReset">↺ Reset to |0⟩</button>
+      </div>
+      <div id="gpLog" class="muted" style="font-size:12.5px;margin-top:6px">Moves: (none yet)</div>
+    </div>
+    <div class="quiz" data-quiz="q5"></div>
+  </section>
+
+  <!-- 6. ENTANGLEMENT -->
+  <section id="entanglement" data-nav="Entanglement" data-ico="👻">
+    <div class="eyebrow">Lesson 6</div>
+    <h1>Entanglement — spooky linked qubits 👻</h1>
+    <p>Two qubits can be <b>entangled</b>: their fates become linked, no matter how far apart they are. Measure one and you instantly know about the other — even if it's on the Moon. Einstein called it <i>"spooky action at a distance."</i></p>
+    <div class="box analogy"><span class="tag">🧤 The magic gloves</span>
+      Imagine a pair of gloves split into two boxes mailed across the world. Open your box → see a <b>left</b> glove → you instantly know the other box has the <b>right</b> one. Entanglement is like that, but the gloves were <b>spinning as both</b> until someone looked.</div>
+
+    <div class="box try"><span class="tag">🎮 Try it: make a Bell pair</span>
+      Press <b>Entangle</b> to link two qubits (using H then CNOT). Then <b>Measure both</b> many times. Notice: with entanglement the two results <b>always match</b>. With plain independent coins, they often <b>don't</b>.
+      <div class="btnrow">
+        <button class="btn small" id="bellMode">Mode: 🔗 Entangled</button>
+        <button class="btn small alt" id="bellRun">🎲 Measure both ×100</button>
+        <button class="btn small ghost" id="bellReset">↺ Clear</button>
+      </div>
+      <table class="data" id="bellTable"><tr><th>Outcome</th><th>Times seen (of 100)</th></tr>
+        <tr><td>00 (both 0)</td><td id="b00">–</td></tr>
+        <tr><td>01</td><td id="b01">–</td></tr>
+        <tr><td>10</td><td id="b10">–</td></tr>
+        <tr><td>11 (both 1)</td><td id="b11">–</td></tr></table>
+      <div id="bellMsg" class="muted" style="font-size:13px"></div>
+    </div>
+    <div class="box fact"><span class="tag">⚡ Why we care</span>
+      Entanglement is the "teamwork" that gives quantum computers their power. Linked qubits can represent and process relationships that separate bits simply can't.</div>
+    <div class="quiz" data-quiz="q6"></div>
+  </section>
+
+  <!-- 7. CIRCUITS + INTERFERENCE -->
+  <section id="circuits" data-nav="Circuits & Interference" data-ico="🧩">
+    <div class="eyebrow">Lesson 7</div>
+    <h1>Circuits & Interference — snapping it together 🧩</h1>
+    <p>A <b>quantum circuit</b> is just a <b>recipe</b>: lines for each qubit (time flows left → right) with gates placed on them, ending in measurement. Reading one is like reading sheet music.</p>
+    <div class="center">
+      <svg width="430" height="150" viewBox="0 0 430 150" style="max-width:100%">
+        <rect width="430" height="150" fill="#0a0f22" rx="10"/>
+        <text x="14" y="46" fill="#9fb0d8" font-size="13">q0 |0⟩</text>
+        <text x="14" y="106" fill="#9fb0d8" font-size="13">q1 |0⟩</text>
+        <line x1="60" y1="42" x2="400" y2="42" stroke="#2b3766" stroke-width="2"/>
+        <line x1="60" y1="102" x2="400" y2="102" stroke="#2b3766" stroke-width="2"/>
+        <rect x="90" y="24" width="36" height="36" rx="7" fill="#7c5cff"/><text x="100" y="48" fill="#fff" font-size="18">H</text>
+        <circle cx="190" cy="42" r="8" fill="#22d3ee"/>
+        <line x1="190" y1="42" x2="190" y2="102" stroke="#22d3ee" stroke-width="2"/>
+        <circle cx="190" cy="102" r="13" fill="none" stroke="#22d3ee" stroke-width="2"/><line x1="190" y1="92" x2="190" y2="112" stroke="#22d3ee" stroke-width="2"/>
+        <text x="120" y="138" fill="#6b7aa8" font-size="11">H makes a blend, then CNOT links them = a Bell pair 🔗</text>
+        <rect x="330" y="24" width="36" height="36" rx="7" fill="#34d399"/><text x="340" y="47" fill="#04210f" font-size="16">▥</text>
+        <rect x="330" y="84" width="36" height="36" rx="7" fill="#34d399"/><text x="340" y="107" fill="#04210f" font-size="16">▥</text>
+      </svg>
+    </div>
+    <h2>Interference — the real magic ✨</h2>
+    <p>Remember the hidden "signs" (amplitudes)? Quantum answers can <b>add up</b> (get bigger) or <b>cancel out</b> (vanish), exactly like two water waves. This is <b>interference</b>, and it's how quantum computers steer toward the right answer.</p>
+    <div class="box analogy"><span class="tag">🌊 Noise-cancelling headphones</span>
+      Headphones kill noise by adding an <b>opposite</b> wave so they cancel to silence. Quantum algorithms cancel the <b>wrong answers</b> and make the <b>right one</b> louder, so it's the one you measure.</div>
+    <div class="box try"><span class="tag">🎮 Mini-demo: double-H</span>
+      In the Gate Playground above, press <b>H</b> once (you get 50/50). Press <b>H</b> again — you get back to <b>100% 0</b>! The two "|1⟩ paths" had opposite signs and <b>cancelled</b>. That's interference doing its job. ✨</div>
+    <div class="quiz" data-quiz="q7"></div>
+  </section>
+
+  <!-- 8. ALGORITHMS + GROVER -->
+  <section id="algorithms" data-nav="Famous Algorithms" data-ico="🧠">
+    <div class="eyebrow">Lesson 8</div>
+    <h1>Famous quantum algorithms 🧠</h1>
+    <p>An <b>algorithm</b> is a step-by-step plan. A few quantum algorithms are famous because they beat classical computers at specific tasks:</p>
+    <div class="grid2">
+      <div class="ucard"><h3>🔎 Grover's search</h3><p>Finding one item in a giant unsorted pile. Classically you might check all N. Grover needs only about <b>√N</b> tries. (1,000,000 items → ~1,000 tries!)</p></div>
+      <div class="ucard"><h3>🔐 Shor's factoring</h3><p>Splits huge numbers into their prime parts <b>fast</b>. That matters because today's internet locks rely on factoring being <i>slow</i>. (More in the security lesson.)</p></div>
+    </div>
+    <div class="box try"><span class="tag">🎮 Try it: Grover's search</span>
+      8 boxes, one hides a 🎁. Classically you'd open them one by one. Grover <b>nudges the blend</b> so the right box gets louder each step. Pick the secret box, then press <b>Grover step</b> and watch its bar grow!
+      <label class="muted" style="font-size:13px;display:block;margin-top:6px">Secret box (the 🎁 is here):</label>
+      <input type="number" id="grMark" min="0" max="7" value="5" style="width:80px">
+      <div id="grViz" style="display:flex;gap:6px;align-items:flex-end;height:130px;margin:12px 0"></div>
+      <div class="btnrow">
+        <button class="btn small" id="grStep">✨ Grover step</button>
+        <button class="btn small ghost" id="grReset">↺ Reset (equal blend)</button>
+      </div>
+      <div id="grMsg" class="muted" style="font-size:13px">Steps taken: 0 — right now every box is equally likely (12.5%).</div>
+    </div>
+    <div class="quiz" data-quiz="q8"></div>
+  </section>
+
+  <!-- 9. CODING -->
+  <section id="coding" data-nav="Coding a Qubit" data-ico="💻">
+    <div class="eyebrow">Lesson 9</div>
+    <h1>Coding a quantum program 💻</h1>
+    <p>Real engineers write quantum programs in normal languages like <b>Python</b>, using a free toolkit called <b>Qiskit</b> (by IBM). You can even run them on a <b>real quantum computer</b> over the internet, for free.</p>
+    <p>Don't worry about memorising this — just see how <b>readable</b> it is. It's the gates from Lesson 5, written as text.</p>
+    <h3>① Hello, qubit (make a blend and measure)</h3>
+    <pre><span class="cm"># Make 1 qubit, blend it, and measure it</span>
+<span class="kw">from</span> qiskit <span class="kw">import</span> QuantumCircuit, Aer, execute
+qc = <span class="fn">QuantumCircuit</span>(1, 1)   <span class="cm"># 1 qubit, 1 result slot</span>
+qc.<span class="fn">h</span>(0)                    <span class="cm"># H gate = make a 50/50 blend</span>
+qc.<span class="fn">measure</span>(0, 0)            <span class="cm"># look at the qubit</span>
+result = <span class="fn">execute</span>(qc, <span class="fn">Aer</span>.<span class="fn">get_backend</span>(<span class="st">'qasm_simulator'</span>), shots=<span class="st">1000</span>).<span class="fn">result</span>()
+<span class="fn">print</span>(result.<span class="fn">get_counts</span>())</pre>
+    <button class="btn small alt" data-run="outHello">▶ Run (simulated)</button>
+    <div class="codeout" id="outHello">{'0': 503, '1': 497}
+# ≈ half 0s and half 1s, just like a fair coin! 🪙</div>
+
+    <h3>② Entangle two qubits (a Bell pair)</h3>
+    <pre>qc = <span class="fn">QuantumCircuit</span>(2, 2)
+qc.<span class="fn">h</span>(0)            <span class="cm"># blend qubit 0</span>
+qc.<span class="fn">cx</span>(0, 1)         <span class="cm"># CNOT: link qubit 1 to qubit 0</span>
+qc.<span class="fn">measure</span>([0,1],[0,1])</pre>
+    <button class="btn small alt" data-run="outBell">▶ Run (simulated)</button>
+    <div class="codeout" id="outBell">{'00': 512, '11': 488}
+# Only 00 and 11 ever appear — the qubits are entangled! 👻
+# You never see 01 or 10.</div>
+
+    <div class="box fact"><span class="tag">🌍 This is real</span>
+      With a free IBM Quantum account you can send these exact programs to an actual quantum chip kept colder than outer space, and get your results back in minutes.</div>
+    <div class="quiz" data-quiz="q9"></div>
+  </section>
+
+  <!-- 10. INDUSTRIES -->
+  <section id="industries" data-nav="Across Industries" data-ico="🏭">
+    <div class="eyebrow">Lesson 10</div>
+    <h1>Quantum across industries 🏭</h1>
+    <p>Quantum computers are good at problems with <b>huge numbers of combinations</b> or <b>nature-simulating</b> tasks. Here's where people are using (or racing to use) them:</p>
+    <div class="grid2">
+      <div class="ucard"><div class="big">💊</div><h3>Medicine & drug discovery</h3><p>Molecules <i>are</i> quantum. Simulating them helps design new medicines and materials faster — fewer years in the lab.</p></div>
+      <div class="ucard"><div class="big">🚚</div><h3>Logistics & travel</h3><p>Finding the best delivery routes or packing trucks: zillions of combos. Quantum optimisation hunts for great answers.</p></div>
+      <div class="ucard"><div class="big">🔋</div><h3>Energy & materials</h3><p>Better batteries, fertilisers, and superconductors by understanding chemistry at the quantum level.</p></div>
+      <div class="ucard"><div class="big">🤖</div><h3>Artificial intelligence</h3><p>Quantum machine learning may spot patterns in data in new ways, helping train smarter models.</p></div>
+      <div class="ucard"><div class="big">🔐</div><h3>Cybersecurity</h3><p>Quantum can <i>break</i> some of today's codes (Shor's algorithm) — and also help <i>create</i> unbreakable new ones.</p></div>
+      <div class="ucard"><div class="big">🌦️</div><h3>Weather & climate</h3><p>Modelling enormous, interacting systems like the atmosphere to improve forecasts.</p></div>
+    </div>
+    <div class="box analogy"><span class="tag">🗺️ The common thread</span>
+      Most of these are <b>"find the best option among a mountain of choices"</b> or <b>"copy what nature does."</b> Those are exactly the jobs quantum is built for.</div>
+    <div class="quiz" data-quiz="q10"></div>
+  </section>
+
+  <!-- 11. FINANCE -->
+  <section id="finance" data-nav="Quantum in Finance" data-ico="📈">
+    <div class="eyebrow">Lesson 11 · Special focus</div>
+    <h1>Quantum in finance 📈</h1>
+    <p>Finance is full of <b>"too many combinations"</b> problems and <b>predicting uncertain futures</b> — perfect quantum territory. Banks, funds, and insurers are experimenting right now.</p>
+    <div class="grid2">
+      <div class="ucard"><div class="big">🧺</div><h3>1. Portfolio optimisation</h3><p>A portfolio is a basket of investments. You want <b>high returns</b> but <b>low risk</b>. With many assets there are astronomically many baskets. Quantum optimisation (like <b>QAOA</b>) searches for the best mix.</p></div>
+      <div class="ucard"><div class="big">🎲</div><h3>2. Pricing & risk (Monte Carlo)</h3><p>To price complex products, banks simulate thousands of random futures ("Monte Carlo"). <b>Quantum amplitude estimation</b> can reach the same accuracy with far fewer samples.</p></div>
+      <div class="ucard"><div class="big">🕵️</div><h3>3. Fraud detection</h3><p>Spotting sneaky fraud patterns in oceans of transactions — a pattern-finding job that quantum machine learning hopes to boost.</p></div>
+      <div class="ucard"><div class="big">📉</div><h3>4. Risk analysis</h3><p>Measuring how much a bank could lose on a bad day ("Value at Risk"). Faster, more accurate estimates help keep money safe.</p></div>
+    </div>
+
+    <div class="box try"><span class="tag">🎮 Try it: Quantum Portfolio Picker</span>
+      You have 4 investments. Each has a <b>reward</b> and a <b>risk</b>. Pick a basket to get the best <b>score = reward − risk</b>. A classical computer checks baskets one by one. A quantum optimiser explores <b>all 16 baskets together</b> and amplifies the best one. Press the button to watch it scan!
+      <table class="data" style="margin-top:10px">
+        <tr><th>Asset</th><th>Reward</th><th>Risk</th></tr>
+        <tr><td>🍎 SafeBank</td><td>3</td><td>1</td></tr>
+        <tr><td>🚀 RocketTech</td><td>9</td><td>7</td></tr>
+        <tr><td>🏠 HomeFund</td><td>5</td><td>2</td></tr>
+        <tr><td>💎 GemCo</td><td>7</td><td>4</td></tr>
+      </table>
+      <div id="finViz" style="display:flex;flex-wrap:wrap;gap:5px;margin:10px 0"></div>
+      <div class="btnrow">
+        <button class="btn small alt" id="finRun">⚛️ Run quantum search</button>
+        <button class="btn small ghost" id="finReset">↺ Reset</button>
+      </div>
+      <div id="finBest" class="muted" style="font-size:13.5px"></div>
+    </div>
+    <div class="box note"><span class="tag">❗ Honest note</span>
+      This toy uses tiny numbers so you can see the idea. Real portfolios have hundreds of assets and extra rules — that's where exploring combinations "all at once" could really pay off as quantum hardware grows.</div>
+    <div class="quiz" data-quiz="q11"></div>
+  </section>
+
+  <!-- 12. LIMITS -->
+  <section id="limits" data-nav="Limits & Future" data-ico="🚧">
+    <div class="eyebrow">Lesson 12</div>
+    <h1>Limits today & the future 🚧</h1>
+    <p>Quantum computers are amazing but <b>young and fragile</b>. Being honest about this is part of understanding them.</p>
+    <div class="grid2">
+      <div class="ucard"><h3>😵 Noise</h3><p>Qubits are super sensitive — a tiny bump of heat or vibration causes <b>errors</b>. They must be kept colder than space.</p></div>
+      <div class="ucard"><h3>⏳ Short memory</h3><p>Qubits hold their blend for only a tiny fraction of a second ("decoherence") before it leaks away.</p></div>
+      <div class="ucard"><h3>🧮 Error correction</h3><p>We fix errors by spreading 1 good "logical" qubit across many physical qubits — so we need <b>lots</b> of qubits.</p></div>
+      <div class="ucard"><h3>🌅 NISQ era</h3><p>Today's machines are "Noisy Intermediate-Scale Quantum." Useful experiments, not yet world-changing power.</p></div>
+    </div>
+    <div class="box fact"><span class="tag">🔮 The future</span>
+      Each year brings more, better qubits and smarter error-correction. The likely future is <b>hybrid</b>: classical + quantum computers working together, each doing what it's best at.</div>
+    <div class="quiz" data-quiz="q12"></div>
+  </section>
+
+  <!-- 13. CAPSTONE -->
+  <section id="capstone" data-nav="Capstone Project" data-ico="🏆">
+    <div class="eyebrow">Project time</div>
+    <h1>Capstone project 🏆</h1>
+    <p>Time to put it together! Pick a track, follow the steps, and tick the boxes. Your answers save automatically.</p>
+    <div class="pillrow">
+      <span class="pill">🪙 Track A: Quantum Coin-Flip Referee</span>
+      <span class="pill">📈 Track B: Quantum Portfolio Helper (finance)</span>
+    </div>
+
+    <h2>🪙 Track A — Quantum Coin-Flip Referee</h2>
+    <p>Build the idea (and, if you can, the code) for a <b>truly fair</b> coin flip using one qubit — fairer than any physical coin because it's powered by real quantum randomness.</p>
+    <label class="check"><input type="checkbox" data-cap="a1"><span><b>Step 1 — Explain:</b> Write why a single qubit with an <b>H</b> gate makes a perfectly fair 50/50 coin.</span></label>
+    <textarea data-cap="a1t" placeholder="Your explanation…"></textarea>
+    <label class="check"><input type="checkbox" data-cap="a2"><span><b>Step 2 — Design:</b> Draw/describe the circuit: start |0⟩ → H → measure.</span></label>
+    <label class="check"><input type="checkbox" data-cap="a3"><span><b>Step 3 — Code:</b> Adapt the Lesson 9 "Hello qubit" program to flip the coin 10 times.</span></label>
+    <label class="check"><input type="checkbox" data-cap="a4"><span><b>Step 4 — Predict & test:</b> Predict the result, run it (real or in the Qubit Lab), and compare.</span></label>
+
+    <h2>📈 Track B — Quantum Portfolio Helper</h2>
+    <p>Design a mini tool that picks the best investment basket (use the Finance lesson's idea).</p>
+    <label class="check"><input type="checkbox" data-cap="b1"><span><b>Step 1 — Define:</b> List 4 pretend assets with a reward and a risk for each.</span></label>
+    <textarea data-cap="b1t" placeholder="e.g. Asset 1: reward 6, risk 2 …"></textarea>
+    <label class="check"><input type="checkbox" data-cap="b2"><span><b>Step 2 — Score:</b> Decide your goal (e.g. score = reward − risk).</span></label>
+    <label class="check"><input type="checkbox" data-cap="b3"><span><b>Step 3 — Explore:</b> Use the Portfolio Picker to find the best basket. Which won, and why?</span></label>
+    <textarea data-cap="b3t" placeholder="The best basket was… because…"></textarea>
+    <label class="check"><input type="checkbox" data-cap="b4"><span><b>Step 4 — Explain the quantum edge:</b> Why does exploring all baskets "together" help when there are many assets?</span></label>
+
+    <h2>🎤 Final reflection (both tracks)</h2>
+    <label class="check"><input type="checkbox" data-cap="r1"><span>I can explain superposition, measurement, and entanglement to a friend.</span></label>
+    <label class="check"><input type="checkbox" data-cap="r2"><span>I named one real industry use and one finance use of quantum computing.</span></label>
+    <textarea data-cap="rt" placeholder="The coolest thing I learned was…"></textarea>
+    <div id="capProg" class="badge" style="margin-top:10px">Capstone: 0 / 12 steps done</div>
+  </section>
+
+  <!-- 14. FINAL EXAM -->
+  <section id="exam" data-nav="Final Quiz" data-ico="📝">
+    <div class="eyebrow">Show what you know</div>
+    <h1>Final quiz 📝</h1>
+    <p>Ten questions covering the whole journey. Answer them to complete the course!</p>
+    <div class="quiz" data-quiz="e1"></div>
+    <div class="quiz" data-quiz="e2"></div>
+    <div class="quiz" data-quiz="e3"></div>
+    <div class="quiz" data-quiz="e4"></div>
+    <div class="quiz" data-quiz="e5"></div>
+    <div class="quiz" data-quiz="e6"></div>
+    <div class="quiz" data-quiz="e7"></div>
+    <div class="quiz" data-quiz="e8"></div>
+  </section>
+
+  <!-- 15. CERTIFICATE -->
+  <section id="certificate" data-nav="Certificate" data-ico="🏅">
+    <div class="eyebrow">You did it</div>
+    <h1>Your certificate 🏅</h1>
+    <p>Type your name, then generate and download your Quantum Leap certificate. (Finishing the lessons + final quiz unlocks the gold star ⭐.)</p>
+    <div class="btnrow">
+      <input type="text" id="certName" placeholder="Your name" maxlength="28">
+      <button class="btn small" id="certGen">🎓 Generate</button>
+      <button class="btn small alt" id="certDl">⬇️ Download</button>
+    </div>
+    <div class="center"><canvas id="certCanvas" width="820" height="560" style="max-width:100%;border:1px solid var(--line);border-radius:12px;margin-top:12px;background:#0a0f22"></canvas></div>
+  </section>
+
+  <!-- GLOSSARY -->
+  <section id="glossary" data-nav="Glossary" data-ico="📖">
+    <div class="eyebrow">Cheat sheet</div>
+    <h1>Mini glossary 📖</h1>
+    <table class="data">
+      <tr><th>Word</th><th>Kid-friendly meaning</th></tr>
+      <tr><td><b>Qubit</b></td><td>A quantum bit — a "spinning coin" that can be 0, 1, or a blend.</td></tr>
+      <tr><td><b>Superposition</b></td><td>Being a blend of 0 and 1 at the same time.</td></tr>
+      <tr><td><b>Measurement</b></td><td>Looking at a qubit, which forces it to pick 0 or 1.</td></tr>
+      <tr><td><b>Gate</b></td><td>A move/button that changes a qubit (X, H, Z, CNOT…).</td></tr>
+      <tr><td><b>Entanglement</b></td><td>Two qubits linked so their results match up — "spooky."</td></tr>
+      <tr><td><b>Interference</b></td><td>Quantum "waves" adding up or cancelling to steer the answer.</td></tr>
+      <tr><td><b>Circuit</b></td><td>A recipe of gates on qubit lines, ending in measurement.</td></tr>
+      <tr><td><b>Qiskit</b></td><td>A free Python toolkit for writing quantum programs.</td></tr>
+      <tr><td><b>QAOA</b></td><td>A quantum method for "find the best combo" problems (great for finance).</td></tr>
+      <tr><td><b>NISQ</b></td><td>"Noisy Intermediate-Scale Quantum" — today's small, noisy machines.</td></tr>
+    </table>
+    <p class="center muted" style="margin-top:14px">Made with curiosity. Keep asking "what if?" 🚀</p>
+  </section>
+
+  </main>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   QUANTUM LEAP — interactive course engine
+   - tiny complex-amplitude simulator (1–2 qubits)
+   - widgets, quizzes, progress (localStorage), certificate
+   ============================================================ */
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const STORE='quantumLeapProgress';
+
+/* ---------- tiny complex helpers ---------- */
+const C=(re,im=0)=>({re,im});
+const cadd=(a,b)=>C(a.re+b.re,a.im+b.im);
+const csub=(a,b)=>C(a.re-b.re,a.im-b.im);
+const cscale=(a,s)=>C(a.re*s,a.im*s);
+const cabs2=a=>a.re*a.re+a.im*a.im;
+const SQ=Math.SQRT1_2; // 1/√2
+
+/* ---------- 1-qubit gate playground ---------- */
+const GP={ a:C(1,0), b:C(0,0), moves:[] };
+function gpNorm(){ const n=Math.sqrt(cabs2(GP.a)+cabs2(GP.b))||1; GP.a=cscale(GP.a,1/n); GP.b=cscale(GP.b,1/n); }
+function gpRender(){
+  const p0=cabs2(GP.a), p1=cabs2(GP.b);
+  $('#gpP0').textContent=Math.round(p0*100)+'%';
+  $('#gpP1').textContent=Math.round(p1*100)+'%';
+  $('#gpBar0').style.width=(p0*100)+'%';
+  $('#gpBar1').style.width=(p1*100)+'%';
+  const f=x=>(x>=0?'+':'−')+Math.abs(x).toFixed(2);
+  $('#gpAmp').textContent=`${f(GP.a.re)} · |0⟩   ${f(GP.b.re)} · |1⟩`;
+  // ket label
+  let ket='|0⟩';
+  if(p0>0.99) ket='|0⟩'; else if(p1>0.99) ket='|1⟩';
+  else ket=`${f(GP.a.re)}|0⟩ ${f(GP.b.re)}|1⟩`;
+  $('#gpKet').textContent=ket;
+  $('#gpLog').textContent='Moves: '+(GP.moves.length?GP.moves.join(' → '):'(none yet)');
+}
+function gpX(){ const t=GP.a; GP.a=GP.b; GP.b=t; GP.moves.push('X'); gpRender(); }
+function gpH(){ const a=GP.a,b=GP.b; GP.a=cscale(cadd(a,b),SQ); GP.b=cscale(csub(a,b),SQ); GP.moves.push('H'); gpRender(); }
+function gpZ(){ GP.b=cscale(GP.b,-1); GP.moves.push('Z'); gpRender(); }
+function gpMeasure(){
+  const p0=cabs2(GP.a);
+  const r=Math.random()<p0?0:1;
+  if(r===0){ GP.a=C(1,0); GP.b=C(0,0); } else { GP.a=C(0,0); GP.b=C(1,0); }
+  GP.moves.push('Measure='+r); gpRender();
+  $('#gpLog').textContent=`Measured ${r}! The blend collapsed to |${r}⟩. (Reset to try again.)`;
+}
+function gpReset(){ GP.a=C(1,0); GP.b=C(0,0); GP.moves=[]; gpRender(); }
+function initGate(){
+  if(!$('#gpH')) return;
+  $('#gpX').onclick=gpX; $('#gpH').onclick=gpH; $('#gpZ').onclick=gpZ;
+  $('#gpMeasure').onclick=gpMeasure; $('#gpReset').onclick=gpReset; gpRender();
+}
+
+/* ---------- Qubit Lab (superposition + shots) ---------- */
+function initLab(){
+  const sl=$('#labSlider'); if(!sl) return;
+  function p1(){ return +sl.value/100; }
+  function render(){
+    const a=Math.round((1-p1())*100), b=100-a;
+    $('#labP0').textContent=a+'%'; $('#labP1').textContent=b+'%';
+    $('#labBar0').style.width=a+'%'; $('#labBar1').style.width=b+'%';
+    $('#labCoin').textContent = a>65?'0' : b>65?'1' : '◑';
+  }
+  sl.oninput=()=>{ render(); $('#labResult').textContent='Result will appear here…'; };
+  $('#labMeasure1').onclick=()=>{
+    const r=Math.random()<(1-p1())?0:1;
+    $('#labCoin').textContent=r; $('#labResult').textContent=`👁️ You measured: ${r}`;
+  };
+  $('#labMeasure100').onclick=()=>{
+    let z=0; for(let i=0;i<100;i++) if(Math.random()<(1-p1())) z++;
+    $('#labResult').textContent=`🎲 Out of 100 measures: ${z}× "0" and ${100-z}× "1".`;
+  };
+  $('#labReset').onclick=()=>{ sl.value=50; render(); $('#labResult').textContent='Result will appear here…'; };
+  render();
+}
+
+/* ---------- Bell / entanglement demo ---------- */
+function initBell(){
+  const btn=$('#bellRun'); if(!btn) return;
+  let entangled=true;
+  $('#bellMode').onclick=()=>{ entangled=!entangled;
+    $('#bellMode').textContent = 'Mode: '+(entangled?'🔗 Entangled':'🪙 Two coins'); clearTbl(); };
+  function clearTbl(){ ['b00','b01','b10','b11'].forEach(id=>$('#'+id).textContent='–'); $('#bellMsg').textContent=''; }
+  $('#bellReset').onclick=clearTbl;
+  btn.onclick=()=>{
+    const c={'00':0,'01':0,'10':0,'11':0};
+    for(let i=0;i<100;i++){
+      let q0,q1;
+      if(entangled){ q0=Math.random()<0.5?0:1; q1=q0; }       // perfectly correlated
+      else { q0=Math.random()<0.5?0:1; q1=Math.random()<0.5?0:1; } // independent
+      c[''+q0+q1]++;
+    }
+    $('#b00').textContent=c['00']; $('#b01').textContent=c['01'];
+    $('#b10').textContent=c['10']; $('#b11').textContent=c['11'];
+    $('#bellMsg').textContent = entangled
+      ? '🔗 See? Only 00 and 11 — the qubits always agree. That\'s entanglement!'
+      : '🪙 Independent coins give all four outcomes — no link at all.';
+  };
+}
+
+/* ---------- Grover demo (faithful, real amplitudes) ---------- */
+function initGrover(){
+  const viz=$('#grViz'); if(!viz) return;
+  const N=8; let amp=new Array(N).fill(1/Math.sqrt(N)); let steps=0;
+  function mark(){ return clamp(parseInt($('#grMark').value||'0',10),0,N-1); }
+  function draw(){
+    viz.innerHTML='';
+    const m=mark();
+    for(let i=0;i<N;i++){
+      const p=amp[i]*amp[i];
+      const col=document.createElement('div');
+      col.style.cssText='flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px';
+      const bar=document.createElement('div');
+      bar.style.cssText=`width:100%;height:${Math.max(2,p*100)}%;border-radius:6px 6px 0 0;background:${i===m?'linear-gradient(180deg,#34d399,#22d3ee)':'linear-gradient(180deg,#7c5cff,#5b8cff)'}`;
+      const lab=document.createElement('div'); lab.style.cssText='font-size:11px;color:#9fb0d8';
+      lab.textContent=(i===m?'🎁':'')+i;
+      const pct=document.createElement('div'); pct.style.cssText='font-size:10px;color:#cdd8ff';
+      pct.textContent=Math.round(p*100)+'%';
+      col.append(pct,bar,lab); viz.append(col);
+    }
+  }
+  function step(){
+    const m=mark();
+    amp[m]=-amp[m];                                  // oracle: flip sign of the gift box
+    const mean=amp.reduce((s,v)=>s+v,0)/N;           // inversion about the mean
+    amp=amp.map(v=>2*mean-v);
+    steps++;
+    const p=Math.round(amp[m]*amp[m]*100);
+    $('#grMsg').textContent=`Steps taken: ${steps} — the 🎁 box is now ${p}% likely. (For 8 boxes, ~2 steps is best!)`;
+    draw();
+  }
+  function reset(){ amp=new Array(N).fill(1/Math.sqrt(N)); steps=0;
+    $('#grMsg').textContent='Steps taken: 0 — right now every box is equally likely (12.5%).'; draw(); }
+  $('#grStep').onclick=step; $('#grReset').onclick=reset; $('#grMark').onchange=reset; reset();
+}
+
+/* ---------- Finance portfolio picker ---------- */
+function initFinance(){
+  const viz=$('#finViz'); if(!viz) return;
+  const assets=[{n:'🍎',r:3,k:1},{n:'🚀',r:9,k:7},{n:'🏠',r:5,k:2},{n:'💎',r:7,k:4}];
+  const combos=[];
+  for(let m=0;m<16;m++){
+    let r=0,k=0,names=[];
+    for(let i=0;i<4;i++) if(m&(1<<i)){ r+=assets[i].r; k+=assets[i].k; names.push(assets[i].n); }
+    combos.push({m,score:r-k,r,k,names:names.join('')||'(empty)'});
+  }
+  let best=combos.reduce((a,b)=>b.score>a.score?b:a);
+  function draw(active=-1,reveal=false){
+    viz.innerHTML='';
+    combos.forEach(c=>{
+      const d=document.createElement('div');
+      const isBest=reveal&&c.m===best.m;
+      d.style.cssText=`min-width:64px;text-align:center;padding:7px 6px;border-radius:9px;font-size:12px;border:1px solid ${isBest?'#34d399':'#2b3766'};
+        background:${c.m===active?'#2a2450':isBest?'#0f2e22':'#0e1733'};transition:.08s`;
+      d.innerHTML=`<div style="font-size:15px">${c.names}</div><div style="color:#9fb0d8">score ${c.score}</div>`;
+      viz.append(d);
+    });
+  }
+  $('#finReset').onclick=()=>{ draw(); $('#finBest').textContent=''; };
+  $('#finRun').onclick=()=>{
+    $('#finBest').textContent='⚛️ Exploring all 16 baskets at once…';
+    let i=0;
+    const tick=setInterval(()=>{
+      draw(i,false); i++;
+      if(i>=16){ clearInterval(tick); draw(-1,true);
+        $('#finBest').textContent=`🏆 Best basket: ${best.names} → reward ${best.r} − risk ${best.k} = score ${best.score}. Quantum search amplifies this winner.`; }
+    },70);
+  };
+  draw();
+}
+
+/* ---------- simulated code "run" buttons ---------- */
+function initRunButtons(){
+  $$('[data-run]').forEach(b=>{ b.onclick=()=>{ const o=$('#'+b.dataset.run); if(o) o.style.display='block'; }; });
+}
+
+/* ============================================================
+   QUIZZES
+   ============================================================ */
+const QUIZZES={
+  q1:{q:'A quantum computer is best described as…',
+    o:['A faster version of your laptop','A different kind of tool, good at a few special hard problems','A computer that never makes mistakes','A robot'],
+    a:1,e:'Right! It\'s a special tool — like a submarine vs a car — not just a faster everyday computer.'},
+  q2:{q:'How many possibilities can 3 qubits represent at once?',
+    o:['3','6','8','1'],a:2,e:'Yes! Each qubit doubles it: 2 → 4 → 8.'},
+  q3:{q:'A qubit in a perfect 50/50 superposition, measured many times, gives…',
+    o:['Always 0','Always 1','About half 0s and half 1s','Always the number 50'],a:2,e:'Correct — like flipping a fair coin lots of times.'},
+  q4:{q:'What happens when you measure a qubit?',
+    o:['Nothing changes','It speeds up','Its blend collapses to a definite 0 or 1','It becomes two qubits'],a:2,e:'Exactly — looking forces it to pick, and the superposition is gone.'},
+  q5:{q:'Which gate turns a definite |0⟩ into a 50/50 blend?',
+    o:['X','H (Hadamard)','Z','CNOT'],a:1,e:'Yes! H = make a blend.'},
+  q6:{q:'Two entangled qubits (a Bell pair) are measured. You see them…',
+    o:['Always disagree','Always agree (00 or 11)','Show random unrelated answers','Disappear'],a:1,e:'Correct — their results are linked, so only 00 or 11 appear.'},
+  q7:{q:'Interference is most like…',
+    o:['A traffic jam','Noise-cancelling headphones adding an opposite wave','A magnet','Wi-Fi'],a:1,e:'Right — waves adding up or cancelling, used to boost the right answer.'},
+  q8:{q:'Grover\'s search finds an item among N in about…',
+    o:['N tries','N×N tries','√N tries','1 try always'],a:2,e:'Yes — roughly square-root of N, a big speed-up for large N.'},
+  q9:{q:'In Qiskit, qc.h(0) does what?',
+    o:['Deletes qubit 0','Applies an H (blend) gate to qubit 0','Prints "hello"','Measures qubit 0'],a:1,e:'Correct — h(0) puts qubit 0 into superposition.'},
+  q10:{q:'Which is a classic "good fit" for quantum computers?',
+    o:['Sending an email','Finding the best option among a mountain of combinations','Playing a video','Charging a phone'],a:1,e:'Yes — huge-combination and nature-simulating problems.'},
+  q11:{q:'In finance, "portfolio optimisation" means…',
+    o:['Deleting your bank account','Choosing the best mix of investments (high reward, low risk)','Counting coins','Drawing graphs'],a:1,e:'Correct — picking the best basket among countless options.'},
+  q12:{q:'Why must today\'s qubits be kept extremely cold and isolated?',
+    o:['They like winter','Tiny disturbances cause errors (noise)','To save electricity','So they look cool'],a:1,e:'Right — qubits are fragile; heat and vibration cause errors.'},
+  /* final exam */
+  e1:{q:'A bit is to a light switch as a qubit is to a…',o:['Brick','Spinning coin','Pencil','Cloud'],a:1,e:'Spinning coin = blend of 0 and 1.'},
+  e2:{q:'Superposition means a qubit can be…',o:['Broken','0 and 1 at the same time','Only 1','A whole number'],a:1,e:'Both at once — until measured.'},
+  e3:{q:'Measuring a superposed qubit…',o:['Keeps the blend','Collapses it to 0 or 1','Doubles it','Cools it down'],a:1,e:'It collapses to a definite value.'},
+  e4:{q:'CNOT is used to…',o:['Blend one qubit','Link two qubits (entangle)','Measure','Reset'],a:1,e:'CNOT helps create entanglement.'},
+  e5:{q:'Pressing H twice on |0⟩ gives…',o:['|1⟩','Still |0⟩ (interference cancels |1⟩)','50/50 forever','An error'],a:1,e:'The two |1⟩ paths cancel — back to |0⟩.'},
+  e6:{q:'Shor\'s algorithm is famous for…',o:['Drawing pictures','Quickly factoring big numbers (affects security)','Cooling qubits','Playing music'],a:1,e:'Fast factoring threatens some current encryption.'},
+  e7:{q:'A finance use of quantum is…',o:['Toasting bread','Monte-Carlo pricing / risk with fewer samples','Posting selfies','Sorting emails'],a:1,e:'Amplitude estimation speeds up Monte-Carlo.'},
+  e8:{q:'"NISQ" describes today\'s quantum computers as…',o:['Perfect and huge','Noisy and intermediate-scale','Made of wood','Already in phones'],a:1,e:'Noisy Intermediate-Scale Quantum — small and error-prone, for now.'}
+};
+
+let progress=loadProgress();
+function loadProgress(){ try{ return JSON.parse(localStorage.getItem(STORE))||{quiz:{},cap:{}}; }catch(e){ return {quiz:{},cap:{}}; } }
+function saveProgress(){ try{ localStorage.setItem(STORE,JSON.stringify(progress)); }catch(e){} }
+
+function renderQuiz(host){
+  const id=host.dataset.quiz, def=QUIZZES[id]; if(!def) return;
+  host.innerHTML='';
+  const h=document.createElement('h4'); h.textContent='🧩 '+def.q; host.append(h);
+  const fb=document.createElement('div'); fb.className='fb';
+  const opts=[];
+  def.o.forEach((txt,i)=>{
+    const o=document.createElement('div'); o.className='opt'; o.textContent=txt;
+    o.onclick=()=>{
+      if(host.dataset.locked) return;
+      opts.forEach(x=>x.classList.remove('sel')); o.classList.add('sel');
+      const ok=i===def.a;
+      opts.forEach((x,j)=>{ if(j===def.a)x.classList.add('correct'); if(j===i&&!ok)x.classList.add('wrong'); });
+      fb.className='fb show '+(ok?'good':'bad');
+      fb.textContent=(ok?'✅ Correct! ':'❌ Not quite. ')+def.e;
+      if(ok){ host.dataset.locked='1'; progress.quiz[id]=true; saveProgress(); updateProgress(); }
+    };
+    opts.push(o); host.append(o);
+  });
+  host.append(fb);
+  if(progress.quiz[id]){ // restore answered state
+    opts[def.a].classList.add('correct'); host.dataset.locked='1';
+    fb.className='fb show good'; fb.textContent='✅ Already nailed this one! '+def.e;
+  }
+}
+
+/* ============================================================
+   NAV + PROGRESS
+   ============================================================ */
+const SECTIONS=$$('section');
+function buildNav(){
+  const nav=$('#nav'); if(!nav) return;
+  SECTIONS.forEach(s=>{
+    const a=document.createElement('a'); a.href='#'+s.id; a.dataset.for=s.id;
+    a.innerHTML=`<span class="ico">${s.dataset.ico||'•'}</span><span>${s.dataset.nav||s.id}</span><span class="chk">✓</span>`;
+    nav.append(a);
+  });
+}
+function totalQuizzes(){ return Object.keys(QUIZZES).length; }
+function doneQuizzes(){ return Object.keys(progress.quiz).filter(k=>progress.quiz[k]).length; }
+function updateProgress(){
+  const pct=Math.round(100*doneQuizzes()/totalQuizzes());
+  $('#progFill').style.width=pct+'%';
+  $('#progLbl').textContent=pct+'% complete';
+  // mark nav sections whose quizzes are all done
+  SECTIONS.forEach(s=>{
+    const quizzes=$$('.quiz',s).map(q=>q.dataset.quiz).filter(Boolean);
+    const link=$(`#nav a[data-for="${s.id}"]`); if(!link) return;
+    if(quizzes.length && quizzes.every(q=>progress.quiz[q])) link.classList.add('done');
+    else if(quizzes.length) link.classList.remove('done');
+  });
+  updateCapstone();
+}
+function activeNavOnScroll(){
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){
+      $$('#nav a').forEach(a=>a.classList.remove('active'));
+      const l=$(`#nav a[data-for="${e.target.id}"]`); if(l) l.classList.add('active');
+    }});
+  },{rootMargin:'-45% 0px -50% 0px'});
+  SECTIONS.forEach(s=>obs.observe(s));
+}
+
+/* ---------- capstone checkboxes / textareas ---------- */
+function initCapstone(){
+  $$('[data-cap]').forEach(el=>{
+    const key=el.dataset.cap;
+    if(el.type==='checkbox'){
+      el.checked=!!progress.cap[key];
+      el.onchange=()=>{ progress.cap[key]=el.checked; saveProgress(); updateCapstone(); };
+    } else { // textarea
+      el.value=progress.cap[key]||'';
+      el.oninput=()=>{ progress.cap[key]=el.value; saveProgress(); };
+    }
+  });
+}
+function updateCapstone(){
+  const boxes=$$('[data-cap][type=checkbox]');
+  const done=boxes.filter(b=>b.checked).length;
+  const lbl=$('#capProg'); if(lbl) lbl.textContent=`Capstone: ${done} / ${boxes.length} steps done`+(done===boxes.length&&boxes.length?' 🎉':'');
+}
+
+/* ---------- certificate ---------- */
+function drawCert(name){
+  const cv=$('#certCanvas'); if(!cv) return; const x=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  const g=x.createLinearGradient(0,0,W,H); g.addColorStop(0,'#161f3e'); g.addColorStop(1,'#0e2740');
+  x.fillStyle=g; x.fillRect(0,0,W,H);
+  x.strokeStyle='#7c5cff'; x.lineWidth=6; x.strokeRect(20,20,W-40,H-40);
+  x.strokeStyle='#22d3ee'; x.lineWidth=2; x.strokeRect(32,32,W-64,H-64);
+  x.textAlign='center';
+  x.fillStyle='#22d3ee'; x.font='bold 20px Trebuchet MS'; x.fillText('⚛  QUANTUM LEAP  ⚛',W/2,90);
+  x.fillStyle='#9fb0d8'; x.font='15px Trebuchet MS'; x.fillText('Certificate of Completion',W/2,124);
+  x.fillStyle='#eaf0ff'; x.font='16px Trebuchet MS'; x.fillText('This certifies that',W/2,196);
+  x.fillStyle='#ffd23f'; x.font='bold 40px Trebuchet MS'; x.fillText(name||'A Curious Mind',W/2,250);
+  x.fillStyle='#eaf0ff'; x.font='15px Trebuchet MS';
+  x.fillText('has completed the Quantum Computing course —',W/2,300);
+  x.fillText('from qubits and superposition to coding, industry &',W/2,324);
+  x.fillText('finance use-cases, and a capstone project.',W/2,348);
+  const pct=Math.round(100*doneQuizzes()/totalQuizzes());
+  const star = pct===100 ? '⭐ Gold — all quizzes passed! ⭐' : `Progress: ${pct}% of quizzes`;
+  x.fillStyle= pct===100?'#ffd23f':'#9fb0d8'; x.font='bold 16px Trebuchet MS'; x.fillText(star,W/2,404);
+  x.fillStyle='#7c5cff'; x.font='bold 60px Trebuchet MS'; x.fillText('🏅',W/2,470);
+  x.fillStyle='#6b7aa8'; x.font='12px Trebuchet MS';
+  x.fillText('Quantum Leap · interactive quantum computing course',W/2,520);
+}
+function initCert(){
+  if(!$('#certGen')) return;
+  $('#certGen').onclick=()=>drawCert($('#certName').value.trim());
+  $('#certDl').onclick=()=>{
+    drawCert($('#certName').value.trim());
+    const a=document.createElement('a'); a.download='quantum-leap-certificate.png';
+    a.href=$('#certCanvas').toDataURL('image/png'); a.click();
+  };
+  drawCert('');
+}
+
+/* ---------- reset ---------- */
+function initReset(){
+  $('#resetBtn').onclick=()=>{
+    if(confirm('Erase all your progress and answers?')){
+      progress={quiz:{},cap:{}}; saveProgress(); location.reload();
+    }
+  };
+}
+
+/* ============================================================ BOOT */
+window.addEventListener('DOMContentLoaded',()=>{
+  buildNav();
+  $$('.quiz').forEach(renderQuiz);
+  initLab(); initGate(); initBell(); initGrover(); initFinance();
+  initRunButtons(); initCapstone(); initCert(); initReset();
+  activeNavOnScroll(); updateProgress();
+});
+</script>
+</body>
+</html>
